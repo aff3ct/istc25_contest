@@ -16,7 +16,7 @@ class enc_dec
 {
   public:
     // Setup for [n,k] code
-    int init(int k, int n, bool opt_avg_latency); 
+    int init(int k, int n, bool opt_avg_latency);
 
     // float LLR to integer representation
     llr_type llr2int(float float_llr);

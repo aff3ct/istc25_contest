@@ -4,18 +4,19 @@
 #include "ldpc.h"
 #include "polar.h"
 
-polar code;
+polar* code;
 int max_iter;
 
 // Setup for [n,k] code
 int enc_dec::init(int k, int n, bool opt_avg_latency) {
-    return code.init(k, n);
+    code = factory::create(k, n);
+    return 0;
 }
 
 llr_type enc_dec::llr2int(float float_llr) {
     // Contestants should replace this code
     //   This code should convert a single LLR to the integer representation used by decoder
-    return std::round((32768/25.0)*float_llr);
+    return float_llr;
 }
 
 // Encode k info bits into n codeword bits
@@ -24,13 +25,13 @@ void enc_dec::encode(bitvec &info, bitvec &cw) {
     //   Actual implementation would encode the information bits into codeword bits
 
     // Encode block
-    code.encode(info, cw);
+    code->encode(info, cw);
 }
 
 // Decode n llrs into n codeword bits and k info bits, return -1 if detected error
 int enc_dec::decode(llrvec &llr, bitvec &cw_est, bitvec &info_est) {
 
-    return code.decode(llr, cw_est, info_est);
+    return code->decode(llr, cw_est, info_est);
 
 }
 

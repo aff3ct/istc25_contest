@@ -29,7 +29,8 @@ struct test_point
 // Define set of tests
 test_point contest[N_TEST] =
 {
-  {64,256,1.0,2000,0},   // k=64 R=1/4
+  {32,64,1.0,2000,0},   // k=64 R=1/4
+  // {64,256,1.0,2000,0},   // k=64 R=1/4
   {128,512,0.1,2000,0},  // k=128 R=1/4
   {256,1024,0.1,2000,0}, // k=256 R=1/4
   {512,2048,0.1,2000,0}, // k=512 R=1/4
@@ -86,7 +87,7 @@ template <typename T,int N> class stats
       }
     }
 };
-    
+
 // Enumerate statistics to collect
 enum dec_stat : int
 {
@@ -107,7 +108,7 @@ class decoder_stats : public stats<int,4>
     }
     //std::vector<std::array<int, 4>> get_data() const { return data; }
 };
-    
+
 // Simulate BPSK transmission over an AWGN channel
 void channel(const bitvec& cw, float esno, fltvec& llr_out) {
     llr_out.resize(cw.size());
