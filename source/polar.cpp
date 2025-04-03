@@ -32,10 +32,21 @@ void polar::encode(bitvec &info, bitvec &cw)
         for (auto j = 0; j < this->N; j += 2 * k)
             for (auto i = 0; i < k; i++)
                 U_N[j + i] = U_N[j + i] ^ U_N[k + j + i];
+
+    for(auto i = 0; i < this->N; i++)
+        U_N[i] = !this->frozen_bits[i] && U_N[i];
+
+    for(auto k = this->N >> 1; k > 0; k >>= 1)
+        for (auto j = 0; j < this->N; j += 2 * k)
+            for (auto i = 0; i < k; i++)
+                U_N[j + i] = U_N[j + i] ^ U_N[k + j + i];
+
+    std::copy(U_N.begin(), U_N.end(), cw.begin());
 }
 
 int polar::decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
 {
-    this->decoder->decode();
+
+    this->decoder->decode(llr, cw_est, info_est);
     return 0; // Return 0 for successful decoding
 }

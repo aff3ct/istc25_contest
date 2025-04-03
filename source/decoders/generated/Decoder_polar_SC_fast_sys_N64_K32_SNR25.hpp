@@ -5,7 +5,6 @@
 #include <cassert>
 
 #include "../Decoder_polar_SC_fast_sys.hpp"
-#include "../polar_functions.hpp"
 
 
 namespace aff3ct
@@ -23,6 +22,7 @@ public:
 	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_64_32_25)
 	{
 		const std::string name = "Decoder_polar_SC_fast_sys_N64_K32_SNR25";
+		this->set_name(name);
 		assert(N == 64);
 		assert(K == 32);
 	}

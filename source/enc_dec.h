@@ -6,7 +6,7 @@
 
 // Two types: bit and llr
 typedef int bit_type;
-typedef int llr_type;
+typedef float llr_type;
 using bitvec = std::vector<bit_type>;
 using llrvec = std::vector<llr_type>;
 using fltvec = std::vector<float>;

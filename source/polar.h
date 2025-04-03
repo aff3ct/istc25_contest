@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N64_K32_SNR25.hpp"
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N8_K4_SNR25.hpp"
 
 using intvec = std::vector<int>;
 using fltvec = std::vector<float>;
@@ -54,6 +55,9 @@ class factory
             if (K == 32 && N == 64)
                 return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_64_32_25,
                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N64_K32_SNR25(K,N,1));
+            else if (K == 4 && N == 8)
+                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_8_4_25,
+                                 new aff3ct::module::Decoder_polar_SC_fast_sys_N8_K4_SNR25(K,N,1));
             else
                 throw std::invalid_argument("Unsupported polar code parameters");
         }

@@ -7,6 +7,7 @@
 
  #include <vector>
  #include <cmath>
+ #include "polar_functions.hpp"
 
  namespace aff3ct
  {
@@ -17,6 +18,8 @@
  {
 
  protected:
+     const int              K;            // number of information bits
+     const int              N;            // number of codeword bits
      const int                m;            // graph depth
            std::vector<float> l;            // lambda, LR or LLR
            std::vector<int>  s;              // bits, partial sums
@@ -24,9 +27,11 @@
      const  std::vector<bool> &frozen_bits; // frozen bits
 
  public:
-    Decoder_polar_SC_fast_sys(const int& K, const int& N, const std::vector<bool>& frozen_bits, const int n_frames = 1):
+    Decoder_polar_SC_fast_sys(const int& K, const int& N, const std::vector<bool>& frozen_bits):
+        K(K),
+        N(N),
         m((int)std::log2(N)),
-        l(N),
+        l(2*N),
         s(N),
         s_bis(N),
         frozen_bits(frozen_bits)
@@ -35,17 +40,56 @@
     };
     ~Decoder_polar_SC_fast_sys() = default;
 
-    void decode()
+    void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
     {
+        // Copy the LLRs to the internal buffer
+        this->_load(llr.data());
+
         // Call the decode function
         this->_decode();
+
+        // Store the decoded bits
+        this->_store(cw_est.data(), info_est.data());
     }
 
  protected:
 
-             void _load          (const float *Y_N){}
+             void print_llr()
+             {
+                for (auto i = 0; i < 2 * this->N; i++)
+                {
+                    std::cout << this->l[i] << " ";
+                }
+                std::cout << std::endl;
+             }
+             void print_s()
+             {
+                for (auto i = 0; i < this->N; i++)
+                {
+                    std::cout << this->s[i] << " ";
+                }
+                std::cout << std::endl;
+             }
+
+             void set_name(const std::string& name)
+             {
+             }
+
+             void _load          (const float *llr)
+             {
+                std::copy(llr, llr + this->N, l.begin());
+             }
      virtual void _decode        (){}
-             void _store         (int *V_K){}
+             void _store         (int * cw_est, int * info_est)
+             {
+                auto k = 0;
+                for (auto i = 0; i < this->N; i++)
+                {
+                    if (this->frozen_bits[i] == 0)
+                        info_est[k++] = this->s[i];
+                }
+                std::copy(this->s.begin(), this->s.begin() + this->N, cw_est);
+             }
 
  };
  }
