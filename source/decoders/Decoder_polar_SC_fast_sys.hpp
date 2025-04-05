@@ -78,6 +78,7 @@
              void _load          (const float *llr)
              {
                 std::copy(llr, llr + this->N, l.begin());
+                std::fill(s.begin(), s.end(), 0);
              }
      virtual void _decode        (){}
              void _store         (int * cw_est, int * info_est)
