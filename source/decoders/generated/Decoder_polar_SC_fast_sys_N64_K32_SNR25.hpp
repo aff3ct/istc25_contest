@@ -6,13 +6,12 @@
 
 #include "../Decoder_polar_SC_fast_sys.hpp"
 
-
 namespace aff3ct
 {
 namespace module
 {
 static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_64_32_25 = {
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 class Decoder_polar_SC_fast_sys_N64_K32_SNR25 : public Decoder_polar_SC_fast_sys
