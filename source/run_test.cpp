@@ -30,7 +30,7 @@ struct test_point
 test_point contest[N_TEST] =
 {
   {4,8,8.0,2000,0},   // k=64 R=1/4
-  {32,64,0.1,2000,0},   // k=64 R=1/4
+  {32,64,3.2,10000000,0},   // k=64 R=1/4
   // {64,256,1.0,2000,0},   // k=64 R=1/4
   // {128,512,0.1,2000,0},  // k=128 R=1/4
   {256,1024,0.1,2000,0}, // k=256 R=1/4
@@ -150,7 +150,7 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
 
   // Setup
   stats.clear();
-
+  auto blk_err = 0;
   // Run tests
   for (int i = 0; i < n_block; ++i)
   {
@@ -185,14 +185,22 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
             ++bit_err;
         }
     }
-    //std::cout << std::endl;
-    //if (bit_err > 0 && detect==1) {
-    //  std::cout << "wrong codeword?" << std::endl;
-    //}
+
+    if (i % 1000 == 0) {
+      std::cout << "\r" << "Processing Block " << i + 1 << " of " << n_block << std::flush;
+    }
+
+    if (bit_err > 0) {
+      ++blk_err;
+    }
 
     // Update statistics
-    stats.update(1-detect, bit_err, enc_time, dec_time);
-  }
+    stats.update(1 - detect, bit_err, enc_time, dec_time);
+    }
+
+    // Ensure the final line ends cleanly after all blocks are processed
+    std::cout << "\r" << "Processing Block " << n_block << " of " << n_block << " - Completed" << std::endl;
+  std::cout << "blk_err = " << blk_err << std::endl;
 }
 
 // Run all the tests in one round
