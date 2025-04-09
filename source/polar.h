@@ -21,6 +21,7 @@
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N2048_K512_SNR30.hpp"
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K512_SNR38.hpp"
 
+#include "decoders/CRC.hpp"
 
 using intvec = std::vector<int>;
 using fltvec = std::vector<float>;
@@ -41,10 +42,15 @@ class polar
         std::vector<int> s_bis;        // bits, partial sums
         const  std::vector<bool> &frozen_bits; // frozen bits
         aff3ct::module::Decoder_polar_SC_fast_sys *decoder; // decoder instance
-
+        aff3ct::module::CRC<int> *crc;
     public:
         // Constructor
         polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar_SC_fast_sys *decoder);
+        polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar_SC_fast_sys *decoder,
+              std::string& poly_key);
+
+        // Destructor
+        ~polar();
 
         int init(int K, int N);
 
@@ -60,7 +66,6 @@ class factory
         // Factory method to create a polar code instance
         static polar* create(int K, int N)
         {
-
             std::cout << "Creating polar code with K = " << K << " and N = " << N << std::endl;
                  if (K == 4 && N == 8)
                 return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_8_4_25,

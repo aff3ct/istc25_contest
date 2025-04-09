@@ -1,13 +1,13 @@
 CXX = g++
 CXXFLAGS = -Wall -O3 -std=c++17
 LDFLAGS =
-SOURCES = enc_dec.cpp run_test.cpp polar.cpp test.cpp argmin.cpp
+SOURCES = enc_dec.cpp run_test.cpp polar.cpp test.cpp argmin.cpp decoders/CRC.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 EXECUTABLE = run_test test
 
 all: $(EXECUTABLE)
 
-run_test: enc_dec.o run_test.o argmin.o polar.o
+run_test: enc_dec.o run_test.o argmin.o polar.o decoders/CRC.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 
 test: test.o ldpc.o

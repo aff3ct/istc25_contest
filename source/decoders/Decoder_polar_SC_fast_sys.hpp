@@ -38,7 +38,7 @@
     {
         // Constructor implementation
     };
-    ~Decoder_polar_SC_fast_sys() = default;
+    virtual ~Decoder_polar_SC_fast_sys() = default;
 
     void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
     {
