@@ -6,7 +6,7 @@ B sgn(R val)
 
 
 template <int N_ELMTS>
-static void f(std::vector<float>& l,
+inline static void f(std::vector<float>& l,
        const int off_l_a,
        const int off_l_b,
        const int off_l_c,
@@ -26,7 +26,7 @@ static void f(std::vector<float>& l,
 }
 
 template <int N_ELMTS>
-static void g(std::vector<int>& s,
+inline static void g(std::vector<int>& s,
        std::vector<float>& l,
        const int off_l_a,
        const int off_l_b,
@@ -44,7 +44,7 @@ static void g(std::vector<int>& s,
 }
 
 template <int N_ELMTS>
-static void g0(std::vector<float>& l,
+inline static void g0(std::vector<float>& l,
         const int off_l_a,
         const int off_l_b,
         const int off_l_c,
@@ -60,7 +60,7 @@ static void g0(std::vector<float>& l,
 }
 
 template <int N_ELMTS>
-static void gr(std::vector<int>& s,
+inline static void gr(std::vector<int>& s,
         std::vector<float>& l,
         const int off_l_a,
         const int off_l_b,
@@ -79,7 +79,7 @@ static void gr(std::vector<int>& s,
 }
 
 template <int N_ELMTS>
-static void h(std::vector<int>& s,
+inline static void h(std::vector<int>& s,
        const std::vector<float>& l,
        const int off_l_a,
        const int off_s_a,
@@ -93,7 +93,7 @@ static void h(std::vector<int>& s,
 }
 
 template <int N_ELMTS>
-static void h0(std::vector<int>& s,
+inline static void h0(std::vector<int>& s,
         const int off_s_a,
         int n_elmts)
 {
@@ -101,7 +101,7 @@ static void h0(std::vector<int>& s,
 }
 
 template <int N_ELMTS>
-static void rep(std::vector<int>& s,
+inline static void rep(std::vector<int>& s,
          const std::vector<float>& l,
          const int off_l_a,
          const int off_s_a,
@@ -120,7 +120,7 @@ static void rep(std::vector<int>& s,
 }
 
 template <int N_ELMTS>
-static bool spc(std::vector<int>& s,
+inline static bool spc(std::vector<int>& s,
          const std::vector<float>& l,
          const int off_l_a,
          const int off_s_a,
@@ -153,7 +153,7 @@ static bool spc(std::vector<int>& s,
 }
 
 template <int N_ELMTS>
-static void xo(std::vector<int>& s,
+inline static void xo(std::vector<int>& s,
         const int off_s_a,
         const int off_s_b,
         const int off_s_c,
@@ -168,7 +168,7 @@ static void xo(std::vector<int>& s,
 }
 
 template <int N_ELMTS>
-static void xo0(std::vector<int>& s,
+inline static void xo0(std::vector<int>& s,
         const int off_s_b,
         const int off_s_c,
         int n_elmts)
