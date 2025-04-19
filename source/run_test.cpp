@@ -156,7 +156,8 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
   {
     // Generate random binary message of length test.k
     for (int j = 0; j < k; ++j) {
-        info[j] = distribution(generator); // Random binary message
+        // info[j] = distribution(generator); // Random binary message
+        info[j] = 1; // AZCW
         //std::cout << info[j] << " ";
     }
     //std::cout << std::endl;
@@ -176,6 +177,18 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
     auto dec_start = std::chrono::high_resolution_clock::now();
     int detect = entry.decode(llr, cw_est, info_est);
     auto dec_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - dec_start).count();
+
+    // TODO remove
+    for (auto i = 0; i < n; i++)
+        cw_est[i] = (cw_est[i] == 0) ? 0 : 1;
+    for (auto i = 0; i < k; i++)
+        info_est[i] = (info_est[i] == 0) ? 0 : 1;
+
+    // std::cout << "Decoded codeword: ";
+    // for (auto i = 0; i < cw_est.size(); i++) {
+    //     std::cout << cw_est[i] << " ";
+    // }
+    // std::cout << std::endl;
 
     // Count number of bit errors
     int bit_err = 0;
@@ -288,6 +301,7 @@ void run_test_file(std::string filename, std::string output_filename) {
         std::istringstream iss(line);
         int k, n, n_block, opt_avg;
         float esno;
+        std::string crc_string;
 
         // For each line, read 4 parameters: int k, int n, float esno, int n_block
         if (!(iss >> k >> n >> esno >> n_block >> opt_avg)) {

@@ -21,6 +21,9 @@
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N2048_K512_SNR30.hpp"
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K512_SNR38.hpp"
 
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N8_K4_SNR25.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K64_SNR40.hpp"
+
 #include "decoders/CRC.hpp"
 
 using intvec = std::vector<int>;
@@ -41,13 +44,11 @@ class polar
         std::vector<int> s;            // bits, partial sums
         std::vector<int> s_bis;        // bits, partial sums
         const  std::vector<bool> &frozen_bits; // frozen bits
-        aff3ct::module::Decoder_polar_SC_fast_sys *decoder; // decoder instance
+        aff3ct::module::Decoder_polar *decoder; // decoder instance
         aff3ct::module::CRC<int> *crc;
     public:
         // Constructor
-        polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar_SC_fast_sys *decoder);
-        polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar_SC_fast_sys *decoder,
-              std::string& poly_key);
+        polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar *decoder);
 
         // Destructor
         ~polar();
@@ -67,15 +68,18 @@ class factory
         static polar* create(int K, int N)
         {
             std::cout << "Creating polar code with K = " << K << " and N = " << N << std::endl;
+            aff3ct::module::CRC<int> crc(4,"4-ITU");
                  if (K == 4 && N == 8)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_8_4_25,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N8_K4_SNR25(K,N,1));
+                //  return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_8_4_25,
+                //     new aff3ct::module::Decoder_polar_SC_fast_sys_N8_K4_SNR25(K,N,1));
+                return new polar(K, N, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_8_4_25,
+                    new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N8_K4_SNR25(K,N,2,crc,1));
             else if (K == 32 && N == 64)
                 return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_64_32_25,
                                   new aff3ct::module::Decoder_polar_SC_fast_sys_N64_K32_SNR25(K,N,1));
             else if (K == 64 && N == 256)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_256_64_48,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K64_SNR48(K,N,1));
+                return new polar(K, N, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_64_40,
+                                  new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K64_SNR40(K,N,4,crc,1));
             else if (K == 64 && N == 128)
                 return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_128_64_54,
                                   new aff3ct::module::Decoder_polar_SC_fast_sys_N128_K64_SNR54(K,N,1));

@@ -1,88 +1,85 @@
 /*!
- * \file
- * \brief Class module::Decoder_polar_SC_fast_sys.
- */
- #ifndef DECODER_POLAR_SC_FAST_SYS_
- #define DECODER_POLAR_SC_FAST_SYS_
+* \file
+* \brief Class module::Decoder_polar_SC_fast_sys.
+*/
+#ifndef DECODER_POLAR_SC_FAST_SYS_
+#define DECODER_POLAR_SC_FAST_SYS_
 
- #include <vector>
- #include <cmath>
- #include "polar_functions.hpp"
+#include <vector>
+#include <cmath>
+#include "polar_functions.hpp"
+#include "Decoder_polar.hpp"
 
- namespace aff3ct
- {
- namespace module
- {
+namespace aff3ct
+{
+namespace module
+{
 
- class Decoder_polar_SC_fast_sys
- {
+class Decoder_polar_SC_fast_sys : public Decoder_polar
+{
 
- protected:
-     const int              K;            // number of information bits
-     const int              N;            // number of codeword bits
-     const int                m;            // graph depth
-           std::vector<float> l;            // lambda, LR or LLR
-           std::vector<int>  s;              // bits, partial sums
-           std::vector<int>  s_bis;          // bits, partial sums
-     const  std::vector<bool> &frozen_bits; // frozen bits
+protected:
+        std::vector<float> l;            // lambda, LR or LLR
+        std::vector<int>  s;              // bits, partial sums
+        std::vector<int>  s_bis;          // bits, partial sums
+    const  std::vector<bool> &frozen_bits; // frozen bits
 
- public:
-    Decoder_polar_SC_fast_sys(const int& K, const int& N, const std::vector<bool>& frozen_bits):
-        K(K),
-        N(N),
-        m((int)std::log2(N)),
-        l(2*N),
-        s(N),
-        s_bis(N),
-        frozen_bits(frozen_bits)
-    {
-        // Constructor implementation
-    };
-    virtual ~Decoder_polar_SC_fast_sys() = default;
+public:
+Decoder_polar_SC_fast_sys(const int& K, const int& N, const std::vector<bool>& frozen_bits)
+: Decoder_polar(K, N),
+  l(2*N),
+  s(N),
+  s_bis(N),
+  frozen_bits(frozen_bits)
+{
+    // Constructor implementation
+};
 
-    void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
-    {
-        // Copy the LLRs to the internal buffer
-        this->_load(llr.data());
+virtual ~Decoder_polar_SC_fast_sys() = default;
 
-        // Call the decode function
-        this->_decode();
+void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
+{
+    // Copy the LLRs to the internal buffer
+    this->_load(llr.data());
 
-        // Store the decoded bits
-        this->_store(cw_est.data(), info_est.data());
-    }
+    // Call the decode function
+    this->_decode();
 
- protected:
+    // Store the decoded bits
+    this->_store(cw_est.data(), info_est.data());
+}
 
-             void print_llr()
-             {
-                for (auto i = 0; i < 2 * this->N; i++)
-                {
-                    std::cout << this->l[i] << " ";
-                }
-                std::cout << std::endl;
-             }
-             void print_s()
-             {
-                for (auto i = 0; i < this->N; i++)
-                {
-                    std::cout << this->s[i] << " ";
-                }
-                std::cout << std::endl;
-             }
+protected:
 
-             void set_name(const std::string& name)
-             {
-             }
+            void print_llr()
+            {
+            for (auto i = 0; i < 2 * this->N; i++)
+            {
+                std::cout << this->l[i] << " ";
+            }
+            std::cout << std::endl;
+            }
+            void print_s()
+            {
+            for (auto i = 0; i < this->N; i++)
+            {
+                std::cout << this->s[i] << " ";
+            }
+            std::cout << std::endl;
+            }
 
-             void _load          (const float *llr)
-             {
-                std::copy(llr, llr + this->N, l.begin());
-                std::fill(s.begin(), s.end(), 0);
-             }
-     virtual void _decode        (){}
-             void _store         (int * cw_est, int * info_est)
-             {
+            void set_name(const std::string& name)
+            {
+            }
+
+            void _load          (const float *llr)
+            {
+            std::copy(llr, llr + this->N, l.begin());
+            std::fill(s.begin(), s.end(), 0);
+            }
+    virtual void _decode        (){}
+            void _store         (int * cw_est, int * info_est)
+            {
                 auto k = 0;
                 for (auto i = 0; i < this->N; i++)
                 {
@@ -90,12 +87,12 @@
                         info_est[k++] = this->s[i];
                 }
                 std::copy(this->s.begin(), this->s.begin() + this->N, cw_est);
-             }
+            }
 
- };
- }
- }
+};
+}
+}
 
 //  #include "Decoder_polar_SC_fast_sys.hxx"
 
- #endif /* DECODER_POLAR_SC_FAST_SYS_ */
+#endif /* DECODER_POLAR_SC_FAST_SYS_ */

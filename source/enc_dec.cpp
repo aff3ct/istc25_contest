@@ -26,6 +26,11 @@ void enc_dec::encode(bitvec &info, bitvec &cw) {
 
     // Encode block
     code->encode(info, cw);
+    // std::cout << "Encoded codeword: ";
+    // for (auto i = 0; i < cw.size(); i++) {
+    //     std::cout << cw[i] << " ";
+    // }
+    // std::cout << std::endl;
 }
 
 // Decode n llrs into n codeword bits and k info bits, return -1 if detected error

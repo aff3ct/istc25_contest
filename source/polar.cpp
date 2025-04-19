@@ -4,21 +4,12 @@
 #include <stdexcept>
 #include <vector>
 
-polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar_SC_fast_sys *decoder)
+polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar *decoder)
     : K(K), N(N), m((int)std::log2(N)), frozen_bits(frozen_bits), decoder(decoder)
 {
+    crc = nullptr;
     if (K <= 0 || N <= 0 || static_cast<int>(frozen_bits.size()) != N)
         throw std::invalid_argument("Invalid parameters for polar code");
-}
-
-polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar_SC_fast_sys *decoder,
-             std::string& poly_key)
-    : K(K), N(N), m((int)std::log2(N)), frozen_bits(frozen_bits), decoder(decoder)
-{
-    if (K <= 0 || N <= 0 || static_cast<int>(frozen_bits.size()) != N)
-        throw std::invalid_argument("Invalid parameters for polar code");
-
-    this->crc = new aff3ct::module::CRC<int>(K, poly_key);
 }
 
 polar::~polar()

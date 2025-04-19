@@ -49,6 +49,7 @@ inline static void g(const float* l_a,
         l_c[i] = ((s_a[i] == 0) ? l_a[i] : -l_a[i]) + l_b[i];
 }
 
+
 template <int N_ELMTS>
 inline static void g(std::vector<int>& s,
        std::vector<float>& l,
@@ -75,6 +76,7 @@ inline static void g0(const float* l_a,
     for (auto i = 0; i < N_ELMTS; i++)
         l_c[i] = l_a[i] + l_b[i];
 }
+
 
 template <int N_ELMTS>
 inline static void g0(std::vector<float>& l,
@@ -143,6 +145,13 @@ inline static void h(std::vector<int>& s,
 }
 
 template <int N_ELMTS>
+inline static void h0(int* s_a,
+        int n_elmts)
+{
+    std::fill(s_a, s_a + n_elmts, 0);
+}
+
+template <int N_ELMTS>
 inline static void h0(std::vector<int>& s,
         const int off_s_a,
         int n_elmts)
@@ -150,13 +159,6 @@ inline static void h0(std::vector<int>& s,
     int* s_a = s.data() + off_s_a;
 
     h0<N_ELMTS>(s_a, n_elmts);
-}
-
-template <int N_ELMTS>
-inline static void h0(const int* s_a,
-        int n_elmts)
-{
-    std::fill(s_a, s_a + n_elmts, 0);
 }
 
 template <int N_ELMTS>
