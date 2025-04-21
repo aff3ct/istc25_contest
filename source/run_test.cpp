@@ -156,11 +156,9 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
   {
     // Generate random binary message of length test.k
     for (int j = 0; j < k; ++j) {
-        // info[j] = distribution(generator); // Random binary message
-        info[j] = 1; // AZCW
-        //std::cout << info[j] << " ";
+        info[j] = distribution(generator); // Random binary message
+        // info[j] = 1; // AZCW
     }
-    //std::cout << std::endl;
 
     // Encode message
     auto enc_start = std::chrono::high_resolution_clock::now();

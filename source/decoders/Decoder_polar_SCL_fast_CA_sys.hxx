@@ -6,11 +6,6 @@ namespace aff3ct
 {
 namespace module
 {
-template <typename B>
-constexpr B bit_init()
-{
-	return (B)(((B)1) << (sizeof(B) * 8 -1));
-}
 
 inline float sat_m(const float m) { return m; } // TODO REMOVE
 
@@ -421,27 +416,27 @@ bool Decoder_polar_SCL_fast_CA_sys
 int Decoder_polar_SCL_fast_CA_sys
 ::select_best_path()
 {
-	best_path = -1;
-	for (auto i = 0; i < n_active_paths; i++)
-		if (best_path == -1 || metrics[paths[i]] < metrics[best_path])
-			best_path = paths[i];
+	// best_path = -1;
+	// for (auto i = 0; i < n_active_paths; i++)
+	// 	if (best_path == -1 || metrics[paths[i]] < metrics[best_path])
+	// 		best_path = paths[i];
 
-	if (best_path == -1)
-		best_path = 0;
+	// if (best_path == -1)
+	// 	best_path = 0;
 
-	return n_active_paths;
-	// std::sort(this->paths.begin(), this->paths.begin() + this->n_active_paths,
-	// 	[this](int x, int y){
-	// 		return this->metrics[x] < this->metrics[y];
-	// 	});
+	// return n_active_paths;
+	std::sort(this->paths.begin(), this->paths.begin() + this->n_active_paths,
+		[this](int x, int y){
+			return this->metrics[x] < this->metrics[y];
+		});
 
-	// auto i = 0;
-	// while (i < this->n_active_paths && !crc_check(this->s[this->paths[i]])) i++;
+	auto i = 0;
+	while (i < this->n_active_paths && !crc_check(this->s[this->paths[i]])) i++;
 
-	// this->best_path = (i == this->n_active_paths) ? this->paths[0] : this->paths[i];
-	// fast_store = i != this->n_active_paths;
+	this->best_path = (i == this->n_active_paths) ? this->paths[0] : this->paths[i];
+	fast_store = i != this->n_active_paths;
 
-	// return this->n_active_paths -i;
+	return this->n_active_paths -i;
 }
 
 void Decoder_polar_SCL_fast_CA_sys
