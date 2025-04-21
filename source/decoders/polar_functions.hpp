@@ -7,6 +7,12 @@ B sgn(R val)
 	return (B)((R(0) < val) - (val < R(0)));
 }
 
+template <typename B>
+constexpr B bit_init()
+{
+	return (B)(((B)1) << (sizeof(B) * 8 -1));
+}
+
 
 template <int N_ELMTS>
 inline static void f(const float* l_a,
@@ -128,7 +134,7 @@ inline static void h(const float* l_a,
         int n_elmts)
 {
     for (auto i = 0; i < N_ELMTS; i++)
-        s_a[i] = l_a[i] < 0;
+        s_a[i] = (l_a[i] < 0) * bit_init<int>();
 }
 
 template <int N_ELMTS>
