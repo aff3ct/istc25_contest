@@ -181,7 +181,7 @@ inline static void rep(std::vector<int>& s,
     for (auto i = 0; i < N_ELMTS; i++)
         sum_l += l_a[i];
 
-    auto r = sum_l < 0 ? 1 : 0;
+    auto r = (sum_l < 0) * bit_init<int>();
     for (auto i = 0; i < N_ELMTS; i++)
         s_a[i] = r;
 }
@@ -202,7 +202,7 @@ inline static bool spc(std::vector<int>& s,
     auto prod_sign = 1;
     for( auto i = 0; i < N_ELMTS; i++)
     {
-        s_a[i] = l_a[i] < 0 ? 1 : 0;
+        s_a[i] = l_a[i] < 0 ? bit_init<int>() : 0;
         auto sign = (s_a[i] == 0) ? 1 : -1;
         auto abs = (float)sign * l_a[i];
 
@@ -215,7 +215,7 @@ inline static bool spc(std::vector<int>& s,
         prod_sign *= sign;
     }
     if (prod_sign < 0)
-        s_a[cur_min_pos] = (s_a[cur_min_pos] == 0) ? 1 : 0; // correction
+        s_a[cur_min_pos] = (s_a[cur_min_pos] == 0) ? bit_init<int>() : 0; // correction
     return (prod_sign < 0);
 }
 
