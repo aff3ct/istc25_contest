@@ -101,27 +101,41 @@ protected:
 
     void print_llr()
     {
-        // for (auto l = 0; l < this->n_active_paths; l++)
-        // {
-        //     std::cout << "l[" << l << "]: ";
-        //     for (auto i = 0; i < this->N; i++)
-        //     {
-        //         std::cout << this->l[l][i] << " ";
-        //     }
-        //     std::cout << std::endl;
-        // }
+        for (auto l = 0; l < this->n_active_paths; l++)
+        {
+            std::cout << "l[" << l << "]: ";
+            for (auto i = 0; i < this->N; i++)
+            {
+                std::cout << this->l[l][i] << " ";
+            }
+            std::cout << std::endl;
+        }
     }
     void print_s()
     {
-        // for (auto l = 0; l < this->n_active_paths; l++)
-        // {
-        //     std::cout << "s[" << l << "]: ";
-        //     for (auto i = 0; i < this->N; i++)
-        //     {
-        //         std::cout << this->s[l][i] << " ";
-        //     }
-        //     std::cout << std::endl;
-        // }
+        for (auto l = 0; l < this->n_active_paths; l++)
+        {
+            std::cout << "s[" << l << "]: ";
+            for (auto i = 0; i < this->N; i++)
+            {
+                std::cout << this->s[l][i] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+    void print_metrics()
+    {
+        for (auto l = 0; l < this->n_active_paths; l++)
+            std::cout << "metrics[" << l << "]: " << metrics[l] << std::endl;
+    }
+    void print_paths()
+    {
+        std::cout << "paths: ";
+        for (auto i = 0; i < this->n_active_paths; i++)
+        {
+            std::cout << this->paths[i] << " ";
+        }
+        std::cout << std::endl;
     }
 
             void set_name(const std::string& name)
