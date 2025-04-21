@@ -14,27 +14,30 @@
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N8_K4_SNR25.hpp"
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N64_K32_SNR25.hpp"
 
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K64_SNR48.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K68_SNR40.hpp"
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N128_K64_SNR54.hpp"
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N128_K68_SNR42.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N512_K128_SNR41.hpp"
+
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K64_SNR48.hpp"
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K68_SNR40.hpp"
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K72_SNR40.hpp"
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K128_SNR48.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K256_SNR36.hpp"
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K136_SNR73.hpp"
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N512_K256_SNR44.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N2048_K512_SNR30.hpp"
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N512_K128_SNR41.hpp"
 #include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K512_SNR38.hpp"
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K256_SNR36.hpp"
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N2048_K512_SNR30.hpp"
 
 
 
 #include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N8_K4_SNR25.hpp"
 #include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N8_K4_SNR26.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N128_K68_SNR42.hpp"
 #include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K64_SNR40.hpp"
 #include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K68_SNR40.hpp"
-#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N128_K68_SNR42.hpp"
-
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K136_SNR73.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K72_SNR40.hpp"
 #include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K136_SNR73.hpp"
+
 
 
 #include "decoders/CRC.hpp"
@@ -101,10 +104,10 @@ class factory
                                   new aff3ct::module::Decoder_polar_SC_fast_sys_N64_K32_SNR25(K,N,1));
             else if (K == 64 && N == 256)
             {
-                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "4-ITU");
-                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K68_SNR40(K + crc->get_size(),N,1);
-                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K68_SNR40(K + crc->get_size(),N,4,*crc,1);
-                return new polar(K + crc->get_size(), N, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_68_40,
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "8-DVB-S2");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K72_SNR40(K + crc->get_size(),N,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K72_SNR40(K + crc->get_size(),N,4,*crc,1);
+                return new polar(K + crc->get_size(), N, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_72_40,
                                   new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N, *decoder_SC, *decoder_CASCL, *crc), crc);
             }
             // else if (K == 64 && N == 80)
