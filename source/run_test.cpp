@@ -157,7 +157,8 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
     // Generate random binary message of length test.k
     for (int j = 0; j < k; ++j) {
         info[j] = distribution(generator); // Random binary message
-        // info[j] = 1; // AZCW
+
+        // info[j] = 0; // AZCW
     }
 
     // Encode message

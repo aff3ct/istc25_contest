@@ -5,7 +5,7 @@
 #include <vector>
 
 polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar *decoder)
-    : K(K), N(N), m((int)std::log2(N)), frozen_bits(frozen_bits), decoder(decoder)
+    : K(K), N(N), m((int)std::ceil(std::log2(N))), N_polar((int)std::exp2(m)), frozen_bits(frozen_bits), decoder(decoder)
 {
     crc = nullptr;
     if (K <= 0 || N <= 0 || static_cast<int>(frozen_bits.size()) != N)
@@ -13,7 +13,7 @@ polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module:
 }
 
 polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar *decoder, aff3ct::module::CRC<int> *crc)
-    : K(K), N(N), m((int)std::log2(N)), U_K_crc(K), frozen_bits(frozen_bits), decoder(decoder), crc(crc)
+    : K(K), N(N), m((int)std::ceil(std::log2(N))), N_polar((int)std::exp2(m)), U_K_crc(K), frozen_bits(frozen_bits), decoder(decoder), crc(crc)
 {
     if (K <= 0 || N <= 0 || static_cast<int>(frozen_bits.size()) != N)
         throw std::invalid_argument("Invalid parameters for polar code");
@@ -23,7 +23,8 @@ polar::~polar()
 {
     // Destructor to clean up resources
     delete decoder;
-    delete crc;
+    if (crc != nullptr)
+        delete crc;
 }
 
 
@@ -59,12 +60,13 @@ void polar::encode(bitvec &info, bitvec &cw)
             for (auto i = 0; i < k; i++)
                 U_N[j + i] = U_N[j + i] ^ U_N[k + j + i];
 
-    std::copy(U_N.begin(), U_N.end(), cw.begin());
+    std::copy(U_N.begin(), U_N.begin() + cw.size(), cw.begin());
 }
 
 int polar::decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
 {
 
     this->decoder->decode(llr, cw_est, info_est);
+
     return 0; // Return 0 for successful decoding
 }

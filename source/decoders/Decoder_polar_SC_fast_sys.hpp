@@ -40,13 +40,13 @@ virtual ~Decoder_polar_SC_fast_sys() = default;
 void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
 {
     // Copy the LLRs to the internal buffer
-    this->_load(llr.data());
+    this->_load(llr);
 
     // Call the decode function
     this->_decode();
 
     // Store the decoded bits
-    this->_store(cw_est.data(), info_est.data());
+    this->_store(cw_est, info_est);
 }
 
 protected:
@@ -72,13 +72,15 @@ protected:
             {
             }
 
-            void _load          (const float *llr)
+            void _load(const llrvec llr)
             {
-            std::copy(llr, llr + this->N, l.begin());
-            std::fill(s.begin(), s.end(), 0);
+                std::copy(llr.begin(), llr.end(), this->l.begin());
+                std::fill(this->l.begin() + llr.size(), this->l.end(), +std::numeric_limits<float>::infinity());
+
+                std::fill(s.begin(), s.end(), 0);
             }
     virtual void _decode        (){}
-            void _store         (int * cw_est, int * info_est)
+            void _store         (bitvec& cw_est, bitvec& info_est)
             {
                 auto k = 0;
                 for (auto i = 0; i < this->N; i++)
@@ -86,7 +88,7 @@ protected:
                     if (this->frozen_bits[i] == 0)
                         info_est[k++] = this->s[i];
                 }
-                std::copy(this->s.begin(), this->s.begin() + this->N, cw_est);
+                std::copy(this->s.begin(), this->s.begin() + cw_est.size(), cw_est.begin());
             }
 
 };

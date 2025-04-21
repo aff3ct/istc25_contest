@@ -43,6 +43,7 @@ protected:
     std::vector<float> l_tmp;
     std::vector<int> U_test;
 
+    std::vector<float> Y_N_vec;
     float * Y_N;
 
     CRC<int>& crc;
@@ -70,7 +71,8 @@ public:
         best_idx(L),
         l_tmp(N),
         U_test(N),
-        Y_N(nullptr),
+        Y_N_vec(N),
+        Y_N(Y_N_vec.data()),
         crc(crc),
         frozen_bits(frozen_bits),
         fast_store(false)
@@ -84,7 +86,7 @@ public:
     void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
     {
         // Copy the LLRs to the internal buffer
-        this->_load(llr.data());
+        this->_load(llr);
 
         this->init_buffers();
 
@@ -94,7 +96,7 @@ public:
 
 
         // Store the decoded bits
-        this->_store(cw_est.data(), info_est.data());
+        this->_store(cw_est, info_est);
     }
 
 protected:
@@ -142,22 +144,26 @@ protected:
             {
             }
 
-            void _load          (const float *llr)
+            void _load(llrvec llr)
             {
-                Y_N = const_cast<float*>(llr);
+                std::copy(llr.begin(), llr.end(), this->Y_N_vec.begin());
+                std::fill(this->Y_N_vec.begin() + llr.size(), this->Y_N_vec.end(), +std::numeric_limits<float>::infinity());
+
                 for (auto i = 0; i < L; i++)
                     std::fill(s[i].begin(), s[i].end(), 0);
             }
+
     virtual void _decode        (const float *Y_N){}
-            void _store         (int * cw_est, int * info_est)
+            void _store         (bitvec& cw_est, bitvec& info_est)
             {
                 auto k = 0;
+
                 for (auto i = 0; i < this->N; i++)
                 {
                     if (this->frozen_bits[i] == 0)
                         info_est[k++] = this->s[best_path][i];
                 }
-                std::copy(this->s[best_path].begin(), this->s[best_path].begin() + this->N, cw_est);
+                std::copy(this->s[best_path].begin(), this->s[best_path].begin() + cw_est.size(), cw_est.begin());
             }
 
     template <int REV_D, int N_ELMTS> inline void update_paths_r0(const int off_l, const int off_s);
