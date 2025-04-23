@@ -173,11 +173,12 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
     for (int j = 0; j < n; ++j) llr[j] = entry.llr2int(float_llr[j]);
 
     // Decode message
+    int detect;
     auto dec_start = std::chrono::high_resolution_clock::now();
-    int detect = entry.decode(llr, cw_est, info_est);
-    auto dec_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - dec_start).count();
+    detect = entry.decode(llr, cw_est, info_est);
+    auto dec_time = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - dec_start).count();
 
-    // TODO remove
+    // TODO do it in store
     for (auto i = 0; i < n; i++)
         cw_est[i] = (cw_est[i] == 0) ? 0 : 1;
     for (auto i = 0; i < k; i++)
@@ -269,7 +270,7 @@ void run_single_test(int test_number) {
               << "Block: " << sum[0] << "/" << n_sample << " = " << mean[0] << ", "
               << "Info Bit Errors: " << sum[1]  << "/" << n_sample*contest[test_number].k << " = " << contest[test_number].k*mean[1] << ", "
               << "Encoding Time (ns): " << sum[2]  << "/" << n_sample << " = " << mean[2] << ", "
-              << "Decoding Time (\xC2\xB5s): " << sum[3]  << "/" << n_sample << " = " << mean[3] << ", " << std::endl;
+              << "Decoding Time (ns): " << sum[3]  << "/" << n_sample << " = " << mean[3] << ", " << std::endl;
 }
 
 void run_test_file(std::string filename, std::string output_filename) {

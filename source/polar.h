@@ -11,34 +11,53 @@
 
 #include "decoders/Decoder_polar_ASCL_fast_CA_sys.hpp"
 
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N8_K4_SNR25.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N64_K32_SNR25.hpp"
+// K = 64, N = 80
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N128_K72_SNR59.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N128_K72_SNR59.hpp"
 
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N128_K64_SNR54.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N128_K68_SNR42.hpp"
+// K = 64, N = 128
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N128_K72_SNR46.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N128_K72_SNR46.hpp"
 
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K64_SNR48.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K68_SNR40.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K72_SNR40.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K128_SNR48.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K136_SNR73.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N512_K256_SNR44.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N512_K128_SNR41.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K512_SNR38.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K256_SNR36.hpp"
-#include "decoders/generated/Decoder_polar_SC_fast_sys_N2048_K512_SNR30.hpp"
+// K = 64, N = 256
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K76_SNR33.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K76_SNR33.hpp"
 
+// K = 128, N = 160
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K138_SNR58.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K138_SNR58.hpp"
 
+// K = 128, N = 256
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N256_K138_SNR34.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K138_SNR34.hpp"
 
-#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N8_K4_SNR25.hpp"
-#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N8_K4_SNR26.hpp"
-#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N128_K68_SNR42.hpp"
-#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K64_SNR40.hpp"
-#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K68_SNR40.hpp"
-#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K72_SNR40.hpp"
-#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N256_K136_SNR73.hpp"
+// K = 128, N = 512
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N512_K140_SNR29.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N512_K140_SNR29.hpp"
 
+// K = 256, N = 320
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N512_K266_SNR50.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N512_K266_SNR50.hpp"
 
+// K = 256, N = 512
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N512_K268_SNR31.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N512_K268_SNR31.hpp"
+
+// K = 256, N = 1024
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K266_SNR25.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N1024_K266_SNR25.hpp"
+
+// K = 512, N = 640
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K528_SNR47.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N1024_K528_SNR47.hpp"
+
+// K = 512, N = 1024
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N1024_K528_SNR27.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N1024_K528_SNR27.hpp"
+
+// K = 512, N = 2048
+#include "decoders/generated/Decoder_polar_SC_fast_sys_N2048_K544_SNR18.hpp"
+#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N2048_K544_SNR18.hpp"
 
 #include "decoders/CRC.hpp"
 
@@ -86,84 +105,117 @@ class factory
         {
             std::cout << "Creating polar code with K = " << K << " and N = " << N << std::endl;
             int N_polar = (int)std::exp2(std::ceil(std::log2(N)));
-            std::cout << "N_polar = " << N_polar << std::endl;
-            if (K == 4 && N == 8)
+
+
+            if (K == 64 && N == 80)
             {
-                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "4-ITU");
-                return new polar(K, N, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_8_4_25,
-                    new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N8_K4_SNR25(K,N,2,*crc,1));
-            }
-            if (K == 4 && N == 7)
-            {
-                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "1-PAR");
-                return new polar(K, N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_8_4_26,
-                    new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N8_K4_SNR26(K,N_polar,2,*crc,1), crc);
-            }
-            else if (K == 32 && N == 64)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_64_32_25,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N64_K32_SNR25(K,N,1));
-            else if (K == 64 && N == 256)
-            {
+                int L = 16;
                 aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "8-DVB-S2");
-                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K72_SNR40(K + crc->get_size(),N,1);
-                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K72_SNR40(K + crc->get_size(),N,4,*crc,1);
-                return new polar(K + crc->get_size(), N, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_72_40,
-                                  new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N, *decoder_SC, *decoder_CASCL, *crc), crc);
-            }
-            // else if (K == 64 && N == 80)
-            // {
-            //     aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "4-ITU");
-            //     aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N128_K68_SNR42(K + crc->get_size(),N,1);
-            //     aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N128_K68_SNR42(K + crc->get_size(),N,4,*crc,1);
-            //     return new polar(K + crc->get_size(), N, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_128_68_42,
-            //                       new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N, *decoder_SC, *decoder_CASCL, *crc), crc);
-            // }
-            else if (K == 64 && N == 80)
-            {
-                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "4-ITU");
-                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N128_K68_SNR42(K + crc->get_size(),N_polar,1);
-                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N128_K68_SNR42(K + crc->get_size(),N_polar,4,*crc,1);
-                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_128_68_42,
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N128_K72_SNR59(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N128_K72_SNR59(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_128_72_59,
                     new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
             }
-
-
-            else if (K == 68 && N == 256)
-            {
-                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "4-ITU");
-                return new polar(K, N, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_68_40,
-                                new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K68_SNR40(K,N,4,*crc,1));
-            }
             else if (K == 64 && N == 128)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_128_64_54,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N128_K64_SNR54(K,N,1));
-            else if (K == 128 && N == 512)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_512_128_41,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N512_K128_SNR41(K,N,1));
+            {
+                int L = 16;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "8-DVB-S2");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N128_K72_SNR46(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N128_K72_SNR46(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_128_72_46,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
+            else if (K == 64 && N == 256)
+            {
+                int L = 32;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "12-CDMA2000");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K76_SNR33(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K76_SNR33(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_76_33,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
             else if (K == 128 && N == 160)
             {
-                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "8-DVB-S2");
-                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K136_SNR73(K + crc->get_size(),N_polar,1);
-                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K136_SNR73(K + crc->get_size(),N_polar,4,*crc,1);
-                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_136_73,
+                int L = 16;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "10-CDMA2000");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K138_SNR58(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K138_SNR58(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_138_58,
                     new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
             }
             else if (K == 128 && N == 256)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_256_128_48,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K128_SNR48(K,N,1));
-            else if (K == 256 && N == 1024)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_1024_256_36,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N1024_K256_SNR36(K,N,1));
+            {
+                int L = 16;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "10-CDMA2000");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K138_SNR34(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K138_SNR34(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_138_34,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
+            else if (K == 128 && N == 512)
+            {
+                int L = 32;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "12-CDMA2000");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N512_K140_SNR29(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N512_K140_SNR29(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_512_140_29,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
+            else if (K == 256 && N == 320)
+            {
+                int L = 16;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "10-CDMA2000");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N512_K266_SNR50(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N512_K266_SNR50(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_512_266_50,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
             else if (K == 256 && N == 512)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_512_256_44,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N512_K256_SNR44(K,N,1));
-            else if (K == 512 && N == 2048)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_2048_512_30,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N2048_K512_SNR30(K,N,1));
+            {
+                int L = 32;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "12-CDMA2000");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N512_K268_SNR31(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N512_K268_SNR31(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_512_268_31,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
+            else if (K == 256 && N == 1024)
+            {
+                int L = 16;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "10-CDMA2000");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N1024_K266_SNR25(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N1024_K266_SNR25(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_1024_266_25,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
+            else if (K == 512 && N == 640)
+            {
+                int L = 16;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "16-5G");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N1024_K528_SNR47(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N1024_K528_SNR47(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_1024_528_47,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
             else if (K == 512 && N == 1024)
-                return new polar(K, N, aff3ct::module::Decoder_polar_SC_fast_sys_fb_1024_512_38,
-                                  new aff3ct::module::Decoder_polar_SC_fast_sys_N1024_K512_SNR38(K,N,1));
-                        else
+            {
+                int L = 16;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "16-IBM");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N1024_K528_SNR27(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N1024_K528_SNR27(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_1024_528_27,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
+            else if (K == 512 && N == 2048)
+            {
+                int L = 32;
+                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "32-GZIP");
+                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N2048_K544_SNR18(K + crc->get_size(),N_polar,1);
+                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N2048_K544_SNR18(K + crc->get_size(),N_polar,L,*crc,1);
+                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_2048_544_18,
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+            }
+            else
                 throw std::invalid_argument("Unsupported polar code parameters");
         }
 };
