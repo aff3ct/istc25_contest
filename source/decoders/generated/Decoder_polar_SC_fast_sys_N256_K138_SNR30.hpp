@@ -1,5 +1,5 @@
-#ifndef DECODER_POLAR_SC_FAST_SYS_N256_K138_SNR34_HPP_
-#define DECODER_POLAR_SC_FAST_SYS_N256_K138_SNR34_HPP_
+#ifndef DECODER_POLAR_SC_FAST_SYS_N256_K138_SNR30_HPP_
+#define DECODER_POLAR_SC_FAST_SYS_N256_K138_SNR30_HPP_
 
 #include <vector>
 #include <cassert>
@@ -10,29 +10,29 @@ namespace aff3ct
 {
 namespace module
 {
-static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_256_138_34 = {
+static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_256_138_30 = {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-class Decoder_polar_SC_fast_sys_N256_K138_SNR34 : public Decoder_polar_SC_fast_sys
+class Decoder_polar_SC_fast_sys_N256_K138_SNR30 : public Decoder_polar_SC_fast_sys
 {
 public:
-	Decoder_polar_SC_fast_sys_N256_K138_SNR34(const int& K, const int& N, const int n_frames = 1)
-	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_256_138_34)
+	Decoder_polar_SC_fast_sys_N256_K138_SNR30(const int& K, const int& N, const int n_frames = 1)
+	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_256_138_30)
 	{
-		const std::string name = "Decoder_polar_SC_fast_sys_N256_K138_SNR34";
+		const std::string name = "Decoder_polar_SC_fast_sys_N256_K138_SNR30";
 		this->set_name(name);
 		assert(N == 256);
 		assert(K == 138);
 	}
 
-	virtual ~Decoder_polar_SC_fast_sys_N256_K138_SNR34()
+	virtual ~Decoder_polar_SC_fast_sys_N256_K138_SNR30()
 	{
 	}
 
@@ -67,7 +67,13 @@ public:
 		f  <  8>(   l, 480+  0, 480+  8,          480+ 16,   8);
 		rep<  8>(s, l, 496+  0,                    80+  0,   8);
 		gr <  8>(s, l, 480+  0, 480+  8,  80+  0, 480+ 16,   8);
-		spc<  8>(s, l, 496+  0,                    88+  0,   8);
+		f  <  4>(   l, 496+  0, 496+  4,          496+  8,   4);
+		g0 <  2>(   l, 504+  0, 504+  2,          504+  4,   2);
+		h  <  2>(s, l, 508+  0,                    90+  0,   2);
+		xo0<  2>(s,     88+  2,                    88+  0,   2);
+		g  <  4>(s, l, 496+  0, 496+  4,  88+  0, 496+  8,   4);
+		h  <  4>(s, l, 504+  0,                    92+  0,   4);
+		xo <  4>(s,     88+  0,  88+  4,           88+  0,   4);
 		xo <  8>(s,     80+  0,  80+  8,           80+  0,   8);
 		xo < 16>(s,     64+  0,  64+ 16,           64+  0,  16);
 		g  < 32>(s, l, 384+  0, 384+ 32,  64+  0, 384+ 64,  32);
@@ -131,7 +137,7 @@ public:
 		spc<  4>(s, l, 504+  0,                   196+  0,   4);
 		xo <  4>(s,    192+  0, 192+  4,          192+  0,   4);
 		g  <  8>(s, l, 480+  0, 480+  8, 192+  0, 480+ 16,   8);
-		spc<  8>(s, l, 496+  0,                   200+  0,   8);
+		h  <  8>(s, l, 496+  0,                   200+  0,   8);
 		xo <  8>(s,    192+  0, 192+  8,          192+  0,   8);
 		g  < 16>(s, l, 448+  0, 448+ 16, 192+  0, 448+ 32,  16);
 		h  < 16>(s, l, 480+  0,                   208+  0,  16);

@@ -1,5 +1,5 @@
-#ifndef DECODER_POLAR_SC_FAST_SYS_N256_K76_SNR33_HPP_
-#define DECODER_POLAR_SC_FAST_SYS_N256_K76_SNR33_HPP_
+#ifndef DECODER_POLAR_SC_FAST_SYS_N256_K76_SNR25_HPP_
+#define DECODER_POLAR_SC_FAST_SYS_N256_K76_SNR25_HPP_
 
 #include <vector>
 #include <cassert>
@@ -10,29 +10,29 @@ namespace aff3ct
 {
 namespace module
 {
-static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_256_76_33 = {
+static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_256_76_25 = {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-class Decoder_polar_SC_fast_sys_N256_K76_SNR33 : public Decoder_polar_SC_fast_sys
+class Decoder_polar_SC_fast_sys_N256_K76_SNR25 : public Decoder_polar_SC_fast_sys
 {
 public:
-	Decoder_polar_SC_fast_sys_N256_K76_SNR33(const int& K, const int& N, const int n_frames = 1)
-	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_256_76_33)
+	Decoder_polar_SC_fast_sys_N256_K76_SNR25(const int& K, const int& N, const int n_frames = 1)
+	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_256_76_25)
 	{
-		const std::string name = "Decoder_polar_SC_fast_sys_N256_K76_SNR33";
+		const std::string name = "Decoder_polar_SC_fast_sys_N256_K76_SNR25";
 		this->set_name(name);
 		assert(N == 256);
 		assert(K == 76);
 	}
 
-	virtual ~Decoder_polar_SC_fast_sys_N256_K76_SNR33()
+	virtual ~Decoder_polar_SC_fast_sys_N256_K76_SNR25()
 	{
 	}
 
@@ -43,9 +43,7 @@ public:
 		auto &s = this->s;
 
 		f  <128>(   l,   0+  0,   0+128,            0+256, 128);
-		f  < 64>(   l, 256+  0, 256+ 64,          256+128,  64);
-		rep< 64>(s, l, 384+  0,                     0+  0,  64);
-		gr < 64>(s, l, 256+  0, 256+ 64,   0+  0, 256+128,  64);
+		g0 < 64>(   l, 256+  0, 256+ 64,          256+128,  64);
 		f  < 32>(   l, 384+  0, 384+ 32,          384+ 64,  32);
 		rep< 32>(s, l, 448+  0,                    64+  0,  32);
 		gr < 32>(s, l, 384+  0, 384+ 32,  64+  0, 384+ 64,  32);
@@ -61,7 +59,7 @@ public:
 		xo <  8>(s,    112+  0, 112+  8,          112+  0,   8);
 		xo < 16>(s,     96+  0,  96+ 16,           96+  0,  16);
 		xo < 32>(s,     64+  0,  64+ 32,           64+  0,  32);
-		xo < 64>(s,      0+  0,   0+ 64,            0+  0,  64);
+		xo0< 64>(s,      0+ 64,                     0+  0,  64);
 		g  <128>(s, l,   0+  0,   0+128,   0+  0,   0+256, 128);
 		f  < 64>(   l, 256+  0, 256+ 64,          256+128,  64);
 		f  < 32>(   l, 384+  0, 384+ 32,          384+ 64,  32);
@@ -122,8 +120,10 @@ public:
 		f  < 16>(   l, 448+  0, 448+ 16,          448+ 32,  16);
 		f  <  8>(   l, 480+  0, 480+  8,          480+ 16,   8);
 		f  <  4>(   l, 496+  0, 496+  4,          496+  8,   4);
-		rep<  4>(s, l, 504+  0,                   224+  0,   4);
-		gr <  4>(s, l, 496+  0, 496+  4, 224+  0, 496+  8,   4);
+		g0 <  2>(   l, 504+  0, 504+  2,          504+  4,   2);
+		h  <  2>(s, l, 508+  0,                   226+  0,   2);
+		xo0<  2>(s,    224+  2,                   224+  0,   2);
+		g  <  4>(s, l, 496+  0, 496+  4, 224+  0, 496+  8,   4);
 		h  <  4>(s, l, 504+  0,                   228+  0,   4);
 		xo <  4>(s,    224+  0, 224+  4,          224+  0,   4);
 		g  <  8>(s, l, 480+  0, 480+  8, 224+  0, 480+ 16,   8);

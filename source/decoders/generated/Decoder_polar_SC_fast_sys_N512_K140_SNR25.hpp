@@ -1,5 +1,5 @@
-#ifndef DECODER_POLAR_SC_FAST_SYS_N512_K140_SNR29_HPP_
-#define DECODER_POLAR_SC_FAST_SYS_N512_K140_SNR29_HPP_
+#ifndef DECODER_POLAR_SC_FAST_SYS_N512_K140_SNR25_HPP_
+#define DECODER_POLAR_SC_FAST_SYS_N512_K140_SNR25_HPP_
 
 #include <vector>
 #include <cassert>
@@ -10,7 +10,7 @@ namespace aff3ct
 {
 namespace module
 {
-static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_512_140_29 = {
+static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_512_140_25 = {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -21,26 +21,26 @@ static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_512_140_29 = {
 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-class Decoder_polar_SC_fast_sys_N512_K140_SNR29 : public Decoder_polar_SC_fast_sys
+class Decoder_polar_SC_fast_sys_N512_K140_SNR25 : public Decoder_polar_SC_fast_sys
 {
 public:
-	Decoder_polar_SC_fast_sys_N512_K140_SNR29(const int& K, const int& N, const int n_frames = 1)
-	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_512_140_29)
+	Decoder_polar_SC_fast_sys_N512_K140_SNR25(const int& K, const int& N, const int n_frames = 1)
+	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_512_140_25)
 	{
-		const std::string name = "Decoder_polar_SC_fast_sys_N512_K140_SNR29";
+		const std::string name = "Decoder_polar_SC_fast_sys_N512_K140_SNR25";
 		this->set_name(name);
 		assert(N == 512);
 		assert(K == 140);
 	}
 
-	virtual ~Decoder_polar_SC_fast_sys_N512_K140_SNR29()
+	virtual ~Decoder_polar_SC_fast_sys_N512_K140_SNR25()
 	{
 	}
 
@@ -106,9 +106,7 @@ public:
 		xo0< 32>(s,     256+  32,                        256+   0,  32);
 		g  < 64>(s, l,  768+   0,  768+  64,  256+   0,  768+ 128,  64);
 		f  < 32>(   l,  896+   0,  896+  32,             896+  64,  32);
-		f  < 16>(   l,  960+   0,  960+  16,             960+  32,  16);
-		rep< 16>(s, l,  992+   0,                        320+   0,  16);
-		gr < 16>(s, l,  960+   0,  960+  16,  320+   0,  960+  32,  16);
+		g0 < 16>(   l,  960+   0,  960+  16,             960+  32,  16);
 		f  <  8>(   l,  992+   0,  992+   8,             992+  16,   8);
 		rep<  8>(s, l, 1008+   0,                        336+   0,   8);
 		gr <  8>(s, l,  992+   0,  992+   8,  336+   0,  992+  16,   8);
@@ -118,7 +116,7 @@ public:
 		spc<  4>(s, l, 1016+   0,                        348+   0,   4);
 		xo <  4>(s,     344+   0,  344+   4,             344+   0,   4);
 		xo <  8>(s,     336+   0,  336+   8,             336+   0,   8);
-		xo < 16>(s,     320+   0,  320+  16,             320+   0,  16);
+		xo0< 16>(s,     320+  16,                        320+   0,  16);
 		g  < 32>(s, l,  896+   0,  896+  32,  320+   0,  896+  64,  32);
 		f  < 16>(   l,  960+   0,  960+  16,             960+  32,  16);
 		f  <  8>(   l,  992+   0,  992+   8,             992+  16,   8);
@@ -127,7 +125,7 @@ public:
 		f  <  4>(   l, 1008+   0, 1008+   4,            1008+   8,   4);
 		rep<  4>(s, l, 1016+   0,                        360+   0,   4);
 		gr <  4>(s, l, 1008+   0, 1008+   4,  360+   0, 1008+   8,   4);
-		spc<  4>(s, l, 1016+   0,                        364+   0,   4);
+		h  <  4>(s, l, 1016+   0,                        364+   0,   4);
 		xo <  4>(s,     360+   0,  360+   4,             360+   0,   4);
 		xo <  8>(s,     352+   0,  352+   8,             352+   0,   8);
 		g  < 16>(s, l,  960+   0,  960+  16,  352+   0,  960+  32,  16);
