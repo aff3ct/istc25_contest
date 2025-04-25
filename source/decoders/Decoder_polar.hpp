@@ -31,7 +31,7 @@ public:
     }
     virtual ~Decoder_polar() = default;
 
-    virtual void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est) = 0;
+    virtual int decode(llrvec &llr, bitvec &cw_est, bitvec &info_est) = 0;
 };
 
 }

@@ -431,7 +431,12 @@ int Decoder_polar_SCL_fast_CA_sys
 			});
 
 		auto i = 0;
-		while (i < this->n_active_paths && !crc_check(this->s[this->paths[i]])) i++;
+		check = crc_check(this->s[this->paths[i]]);
+		while (++i < this->n_active_paths && !check)
+		{
+			check = crc_check(this->s[this->paths[i]]);
+		}
+
 
 		this->best_path = (i == this->n_active_paths) ? this->paths[0] : this->paths[i];
 		fast_store = i != this->n_active_paths;

@@ -51,6 +51,8 @@ protected:
 
     bool fast_store;
 
+    int check;
+
 public:
     Decoder_polar_SCL_fast_CA_sys(const int& K, const int& N, const int& L, const std::vector<bool>& frozen_bits, CRC<int>& crc)
     : Decoder_polar(K, N),
@@ -75,7 +77,8 @@ public:
         Y_N(Y_N_vec.data()),
         crc(crc),
         frozen_bits(frozen_bits),
-        fast_store(false)
+        fast_store(false),
+        check(0)
     {
         metrics_vec[0].resize(L * 2);
         metrics_vec[1].resize(L * 4);
@@ -83,7 +86,7 @@ public:
     };
     virtual ~Decoder_polar_SCL_fast_CA_sys() = default;
 
-    void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
+    int decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
     {
         // Copy the LLRs to the internal buffer
         this->_load(llr);
@@ -97,6 +100,8 @@ public:
 
         // Store the decoded bits
         this->_store(cw_est, info_est);
+
+        return check;
     }
 
 protected:

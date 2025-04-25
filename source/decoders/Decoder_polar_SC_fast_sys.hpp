@@ -37,7 +37,7 @@ Decoder_polar_SC_fast_sys(const int& K, const int& N, const std::vector<bool>& f
 
 virtual ~Decoder_polar_SC_fast_sys() = default;
 
-void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
+int decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
 {
     // Copy the LLRs to the internal buffer
     this->_load(llr);
@@ -47,6 +47,8 @@ void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
 
     // Store the decoded bits
     this->_store(cw_est, info_est);
+
+    return 1;
 }
 
 protected:

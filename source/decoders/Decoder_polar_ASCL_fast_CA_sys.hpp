@@ -39,14 +39,17 @@ public:
 
     virtual ~Decoder_polar_ASCL_fast_CA_sys() = default;
 
-    void decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
+    int decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
     {
         this->decoder_SC.decode(llr, cw_est, V_K_SC);
         if(crc.check(V_K_SC.data()))
+        {
             crc.extract(V_K_SC.data(), info_est.data());
+            return 1;
+        }
         else
         {
-            this->decoder_CASCL.decode(llr, cw_est, info_est);
+            return this->decoder_CASCL.decode(llr, cw_est, info_est);
         }
 
     }

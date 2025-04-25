@@ -65,8 +65,5 @@ void polar::encode(bitvec &info, bitvec &cw)
 
 int polar::decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
 {
-
-    this->decoder->decode(llr, cw_est, info_est);
-
-    return 0; // Return 0 for successful decoding
+    return this->decoder->decode(llr, cw_est, info_est);
 }

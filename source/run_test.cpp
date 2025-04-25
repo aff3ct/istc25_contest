@@ -29,10 +29,8 @@ struct test_point
 // Define set of tests
 test_point contest[N_TEST] =
 {
-  {4,8,8.0,2000,0},   // k=64 R=1/4
-  {32,64,3.2,10000000,0},   // k=64 R=1/4
-  // {64,256,1.0,2000,0},   // k=64 R=1/4
-  // {128,512,0.1,2000,0},  // k=128 R=1/4
+  {64,256,1.0,2000,0},   // k=64 R=1/4
+  {128,512,0.1,2000,0},  // k=128 R=1/4
   {256,1024,0.1,2000,0}, // k=256 R=1/4
   {512,2048,0.1,2000,0}, // k=512 R=1/4
   {64,128,1.0,2000,0},   // k=64 R=1/2
@@ -150,16 +148,16 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
 
   // Setup
   stats.clear();
-  auto blk_err = 0;
+
   // Run tests
   for (int i = 0; i < n_block; ++i)
   {
     // Generate random binary message of length test.k
     for (int j = 0; j < k; ++j) {
         info[j] = distribution(generator); // Random binary message
-
-        // info[j] = 0; // AZCW
+        //std::cout << info[j] << " ";
     }
+    //std::cout << std::endl;
 
     // Encode message
     auto enc_start = std::chrono::high_resolution_clock::now();
@@ -173,17 +171,9 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
     for (int j = 0; j < n; ++j) llr[j] = entry.llr2int(float_llr[j]);
 
     // Decode message
-    int detect;
     auto dec_start = std::chrono::high_resolution_clock::now();
-    detect = entry.decode(llr, cw_est, info_est);
-    auto dec_time = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - dec_start).count();
-
-
-    // std::cout << "Decoded codeword: ";
-    // for (auto i = 0; i < cw_est.size(); i++) {
-    //     std::cout << cw_est[i] << " ";
-    // }
-    // std::cout << std::endl;
+    int detect = entry.decode(llr, cw_est, info_est);
+    auto dec_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - dec_start).count();
 
     // Count number of bit errors
     int bit_err = 0;
@@ -193,22 +183,14 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
             ++bit_err;
         }
     }
-
-    if (i % 1000 == 0) {
-      std::cout << "\r" << "Processing Block " << i + 1 << " of " << n_block << std::flush;
-    }
-
-    if (bit_err > 0) {
-      ++blk_err;
-    }
+    //std::cout << std::endl;
+    //if (bit_err > 0 && detect==1) {
+    //  std::cout << "wrong codeword?" << std::endl;
+    //}
 
     // Update statistics
-    stats.update(1 - detect, bit_err, enc_time, dec_time);
+    stats.update(1-detect, bit_err, enc_time, dec_time);
     }
-
-    // Ensure the final line ends cleanly after all blocks are processed
-    std::cout << "\r" << "Processing Block " << n_block << " of " << n_block << " - Completed" << std::endl;
-  std::cout << "blk_err = " << blk_err << std::endl;
 }
 
 // Run all the tests in one round
@@ -265,7 +247,7 @@ void run_single_test(int test_number) {
               << "Block: " << sum[0] << "/" << n_sample << " = " << mean[0] << ", "
               << "Info Bit Errors: " << sum[1]  << "/" << n_sample*contest[test_number].k << " = " << contest[test_number].k*mean[1] << ", "
               << "Encoding Time (ns): " << sum[2]  << "/" << n_sample << " = " << mean[2] << ", "
-              << "Decoding Time (ns): " << sum[3]  << "/" << n_sample << " = " << mean[3] << ", " << std::endl;
+              << "Decoding Time (\xC2\xB5s): " << sum[3]  << "/" << n_sample << " = " << mean[3] << ", " << std::endl;
 }
 
 void run_test_file(std::string filename, std::string output_filename) {
@@ -296,7 +278,6 @@ void run_test_file(std::string filename, std::string output_filename) {
         std::istringstream iss(line);
         int k, n, n_block, opt_avg;
         float esno;
-        std::string crc_string;
 
         // For each line, read 4 parameters: int k, int n, float esno, int n_block
         if (!(iss >> k >> n >> esno >> n_block >> opt_avg)) {
