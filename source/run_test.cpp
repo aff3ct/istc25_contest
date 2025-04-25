@@ -178,11 +178,6 @@ void run_test(int k, int n, float esno, int n_block, int opt_avg, decoder_stats 
     detect = entry.decode(llr, cw_est, info_est);
     auto dec_time = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - dec_start).count();
 
-    // TODO do it in store
-    for (auto i = 0; i < n; i++)
-        cw_est[i] = (cw_est[i] == 0) ? 0 : 1;
-    for (auto i = 0; i < k; i++)
-        info_est[i] = (info_est[i] == 0) ? 0 : 1;
 
     // std::cout << "Decoded codeword: ";
     // for (auto i = 0; i < cw_est.size(); i++) {

@@ -83,6 +83,10 @@ protected:
             void _store         (bitvec& cw_est, bitvec& info_est)
             {
                 auto k = 0;
+
+                for (std::size_t i = 0; i < this->s.size(); i++)
+                    this->s[i] = this->s[i] != 0 ? 1 : 0;
+
                 for (auto i = 0; i < this->N; i++)
                 {
                     if (this->frozen_bits[i] == 0)

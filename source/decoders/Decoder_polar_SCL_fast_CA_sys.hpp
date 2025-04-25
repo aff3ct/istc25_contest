@@ -156,6 +156,11 @@ protected:
     virtual void _decode        (const float *Y_N){}
             void _store         (bitvec& cw_est, bitvec& info_est)
             {
+
+                for (std::size_t i = 0; i < this->s[best_path].size(); i++)
+                    this->s[best_path][i] = this->s[best_path][i] != 0 ? 1 : 0;
+
+
                 auto k = 0;
 
                 for (auto i = 0; i < this->N; i++)
