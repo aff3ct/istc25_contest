@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include "enc_dec.h"
-#include "ldpc.h"
 #include "polar.h"
 
 polar* code;

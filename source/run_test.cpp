@@ -10,7 +10,6 @@
 #include <fstream>
 #include <sstream>
 #include "enc_dec.h"
-#include "ldpc.h"
 #include "polar.h"
 #include "argmin.h"
 
