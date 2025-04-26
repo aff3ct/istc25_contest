@@ -9,11 +9,21 @@
 #include <cmath>
 #include "polar_functions.hpp"
 #include "Decoder_polar.hpp"
+#include "Tools/Code/Polar/Pattern_polar_parser.hpp"
+#include "Tools/Code/Polar/Patterns/Pattern_polar_r0.hpp"
+#include "Tools/Code/Polar/Patterns/Pattern_polar_r0_left.hpp"
+#include "Tools/Code/Polar/Patterns/Pattern_polar_r1.hpp"
+#include "Tools/Code/Polar/Patterns/Pattern_polar_rep.hpp"
+#include "Tools/Code/Polar/Patterns/Pattern_polar_rep_left.hpp"
+#include "Tools/Code/Polar/Patterns/Pattern_polar_spc.hpp"
+#include "Tools/Code/Polar/Patterns/Pattern_polar_std.hpp"
+#include "Tools/Code/Polar/fb_extract.h"
 
 namespace aff3ct
 {
 namespace module
 {
+
 
 class Decoder_polar_SC_fast_sys : public Decoder_polar
 {
@@ -23,6 +33,7 @@ protected:
         std::vector<int>  s;              // bits, partial sums
         std::vector<int>  s_bis;          // bits, partial sums
     const  std::vector<bool> &frozen_bits; // frozen bits
+	    tools::Pattern_polar_parser polar_patterns;
 
 public:
 Decoder_polar_SC_fast_sys(const int& K, const int& N, const std::vector<bool>& frozen_bits)
@@ -30,7 +41,15 @@ Decoder_polar_SC_fast_sys(const int& K, const int& N, const std::vector<bool>& f
   l(2*N),
   s(N),
   s_bis(N),
-  frozen_bits(frozen_bits)
+  frozen_bits(frozen_bits),
+  polar_patterns(frozen_bits, {new tools::Pattern_polar_std,
+                                new tools::Pattern_polar_r0_left,
+                                new tools::Pattern_polar_r0,
+                                new tools::Pattern_polar_r1,
+                                new tools::Pattern_polar_rep_left,
+                                new tools::Pattern_polar_rep,
+                                new tools::Pattern_polar_spc},
+                 2, 3)
 {
     // Constructor implementation
 };
@@ -53,21 +72,25 @@ int decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
 
 protected:
 
+            static int to_ones(int c)
+            {
+                return c != 0;
+            }
             void print_llr()
             {
-            for (auto i = 0; i < 2 * this->N; i++)
-            {
-                std::cout << this->l[i] << " ";
-            }
-            std::cout << std::endl;
+                for (auto i = 0; i < 2 * this->N; i++)
+                {
+                    std::cout << this->l[i] << " ";
+                }
+                std::cout << std::endl;
             }
             void print_s()
             {
-            for (auto i = 0; i < this->N; i++)
-            {
-                std::cout << this->s[i] << " ";
-            }
-            std::cout << std::endl;
+                for (auto i = 0; i < this->N; i++)
+                {
+                    std::cout << this->s[i] << " ";
+                }
+                std::cout << std::endl;
             }
 
             void set_name(const std::string& name)
@@ -82,23 +105,14 @@ protected:
     virtual void _decode        (){}
             void _store         (bitvec& cw_est, bitvec& info_est)
             {
-                auto k = 0;
+                std::transform(this->s.begin(), this->s.end(), this->s.begin(), to_ones);
+                tools::fb_extract(this->polar_patterns.get_leaves_pattern_types(), this->s.data(), info_est.data());
 
-                for (std::size_t i = 0; i < this->s.size(); i++)
-                    this->s[i] = this->s[i] != 0 ? 1 : 0;
-
-                for (auto i = 0; i < this->N; i++)
-                {
-                    if (this->frozen_bits[i] == 0)
-                        info_est[k++] = this->s[i];
-                }
                 std::copy(this->s.begin(), this->s.begin() + cw_est.size(), cw_est.begin());
             }
 
 };
 }
 }
-
-//  #include "Decoder_polar_SC_fast_sys.hxx"
 
 #endif /* DECODER_POLAR_SC_FAST_SYS_ */
