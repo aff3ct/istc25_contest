@@ -410,7 +410,8 @@ bool Decoder_polar_SCL_fast_CA_sys
 		if (this->frozen_bits[i] == 0)
 			U_test[k++] = s[i];
 	}
-	return this->crc.check(U_test.data());
+	this->check = this->crc.check(U_test.data());
+	return this->check;
 }
 
 int Decoder_polar_SCL_fast_CA_sys
@@ -431,12 +432,7 @@ int Decoder_polar_SCL_fast_CA_sys
 			});
 
 		auto i = 0;
-		check = crc_check(this->s[this->paths[i]]);
-		while (++i < this->n_active_paths && !check)
-		{
-			check = crc_check(this->s[this->paths[i]]);
-		}
-
+		while (i < this->n_active_paths && !crc_check(this->s[this->paths[i]])) i++;
 
 		this->best_path = (i == this->n_active_paths) ? this->paths[0] : this->paths[i];
 		fast_store = i != this->n_active_paths;
