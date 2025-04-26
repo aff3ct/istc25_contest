@@ -78,8 +78,6 @@ protected:
             {
                 std::copy(llr.begin(), llr.end(), this->l.begin());
                 std::fill(this->l.begin() + llr.size(), this->l.end(), +std::numeric_limits<float>::infinity());
-
-                std::fill(s.begin(), s.end(), 0);
             }
     virtual void _decode        (){}
             void _store         (bitvec& cw_est, bitvec& info_est)
