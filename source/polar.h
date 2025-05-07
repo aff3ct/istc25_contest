@@ -81,6 +81,13 @@ class polar
         std::vector<int> s;            // bits, partial sums
         std::vector<int> s_bis;        // bits, partial sums
         const  std::vector<bool> &frozen_bits; // frozen bits
+
+
+        std::vector<uint64_t> packed_frozen_bits; // packed (¬frozen) mask used by SIMD
+        std::vector<int> info_pos;                // positions of information bits (size = K)
+
+
+    
         aff3ct::module::Decoder_polar *decoder; // decoder instance
         aff3ct::module::CRC<int> *crc;
     public:
@@ -222,4 +229,3 @@ class factory
 
 
 #endif // POLAR_H
-
