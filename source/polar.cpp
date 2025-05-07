@@ -3,13 +3,13 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
+#include <cstdint>
+#include <array>
 
 #pragma GCC push_options
-#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt,fma") 
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt,fma")
 
 #include <immintrin.h>
-
-
 
 void pack_64_scalar(const uint8_t* bits, std::vector<uint64_t>& packData,
                     int N)
@@ -17,7 +17,7 @@ void pack_64_scalar(const uint8_t* bits, std::vector<uint64_t>& packData,
     const uint8_t* vec_in    = bits;
     uint64_t*      symbs_out = packData.data();
 
-    const std::size_t n_symbs = static_cast<std::size_t>(N) >> 6;  
+    const std::size_t n_symbs = static_cast<std::size_t>(N) >> 6;
     const std::size_t rest    = static_cast<std::size_t>(N) & 0x3F;
 
     for (std::size_t blk = 0; blk < n_symbs; ++blk)
@@ -69,14 +69,9 @@ polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module:
     pack_64_scalar(notfb.data(), packed_frozen_bits, N);
     //std::cout<<packed_frozen_bits.size()<<std::endl;
 
-
-
-
     for (int i = 0; i < 256; ++i)
         for (int j = 0; j < 8; ++j)
             bit_expand_lookup[i][j] = (i >> (7 - j)) & 1;
-
-
 }
 
 polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module::Decoder_polar *decoder, aff3ct::module::CRC<int> *crc)
@@ -95,10 +90,6 @@ polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module:
     }
 
     pack_64_scalar(notfb.data(), packed_frozen_bits, N);
-    //std::cout<<packed_frozen_bits.size()<<std::endl;
-
-
-
 
     for (int i = 0; i < 256; ++i)
         for (int j = 0; j < 8; ++j)
@@ -126,12 +117,11 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
     // Build full bit sequence: 0 on frozen positions, info[i] on information positions
     std::vector<std::uint8_t> bits(N, 0);
 
-
     if (crc == nullptr)
     {
         for (size_t i = 0; i < info_pos.size(); ++i)
             bits[info_pos[i]] = static_cast<uint8_t>(info[i]);
-                
+
     }
     else
     {
@@ -140,12 +130,9 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             bits[info_pos[i]] = static_cast<uint8_t>(U_K_crc[i]);
     }
 
-
-
     const std::uint8_t* vec_in    = bits.data();
     std::uint64_t*      symbs_out = packData.data();
     const std::size_t   n_symbs   = N / 64;
-    std::size_t   rest      = N % 64;
 
     const __m256i zero = _mm256_setzero_si256();
 
@@ -171,11 +158,9 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         vec_in += 64;
     }
 
-
-
     if(N==2048)
     {
-        
+
         // Load 32 × 64‑bit words into eight 256‑bit lanes (a – h)
         __m256i a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(packData.data() +  0));
         __m256i b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(packData.data() +  4));
@@ -198,9 +183,6 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         };
         const int shifts[8] = {128,64,32,16,8,4,2,1};
 
-
-
-
         // Applique les 8 sous‑étages (k = 128 … 1) sur un registre de 256 bits
         auto process = [&](__m256i& reg) {
             for (int s = 0; s < 8; ++s) {
@@ -220,14 +202,11 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
 
                 }
 
-
                 __m256i innerCarry = _mm256_srli_epi64(shifted, 64 - rst);
                 __m256i rotate     = _mm256_permute4x64_epi64(innerCarry, 0x93);
                 __m256i carryMask  = _mm256_blend_epi32(_mm256_setzero_si256(), rotate, 0xFC);
                 shifted              = _mm256_slli_epi64(shifted, rst);
                 shifted              = _mm256_or_si256(shifted, carryMask);
-
-
 
                 const __m256i res     = _mm256_and_si256(shifted, mask);
 
@@ -264,14 +243,6 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         a ^= c; b ^= d; e ^= g; f ^= h;
         a ^= e; b ^= f; c ^= g; d ^= h;
 
-
-
-
-
-
-
-
-
         // Store and unpack
         _mm256_storeu_si256(reinterpret_cast<__m256i_u*>(packData.data()), a);
         _mm256_storeu_si256(reinterpret_cast<__m256i*>(packData.data() +  4), b);
@@ -284,7 +255,6 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
 
 
         const size_t n_full = N / 64;
-        rest   = N % 64;
         const uint64_t* in  = packData.data();
         int* out           = cw.data();
         alignas(16) uint8_t tmp[64];
@@ -301,17 +271,10 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
             for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
         }
-
-
-   }
-
-
-
+    }
 
     if(N==1024)
     {
-
-
         // Load 32 × 64‑bit words into eight 256‑bit lanes (a – h)
         __m256i a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(packData.data() +  0));
         __m256i b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(packData.data() +  4));
@@ -330,9 +293,6 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         };
         const int shifts[8] = {128,64,32,16,8,4,2,1};
 
-
-
-
         // Applique les 8 sous‑étages (k = 128 … 1) sur un registre de 256 bits
         auto process = [&](__m256i& reg) {
             for (int s = 0; s < 8; ++s) {
@@ -352,14 +312,11 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
 
                 }
 
-
                 __m256i innerCarry = _mm256_srli_epi64(shifted, 64 - rst);
                 __m256i rotate     = _mm256_permute4x64_epi64(innerCarry, 0x93);
                 __m256i carryMask  = _mm256_blend_epi32(_mm256_setzero_si256(), rotate, 0xFC);
                 shifted              = _mm256_slli_epi64(shifted, rst);
                 shifted              = _mm256_or_si256(shifted, carryMask);
-
-
 
                 const __m256i res     = _mm256_and_si256(shifted, mask);
 
@@ -368,20 +325,13 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             }
         };
 
-
         process(a); process(b); process(c); process(d);
-
 
         // stage of 512 vectors
         a ^= b; c ^= d;
+
         // stage of 1024 vectors
-
         a ^= c; b ^= d;
-
-
-
-
-
 
         // Apply frozen‑bit mask (keeps only non‑frozen bits for the second half transform)
         auto apply_mask = [&](auto& reg, size_t offset){
@@ -390,25 +340,13 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         };
         apply_mask(a,0); apply_mask(b,4); apply_mask(c,8);  apply_mask(d,12);
 
-
-
-
-
-
-
-
-
-
         process(a); process(b); process(c); process(d);
-
 
         // stage of 512 vectors
         a ^= b; c ^= d;
+
         // stage of 1024 vectors
-
         a ^= c; b ^= d;
-
-
 
         // Store and unpack
         _mm256_storeu_si256(reinterpret_cast<__m256i_u*>(packData.data()), a);
@@ -416,9 +354,7 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         _mm256_storeu_si256(reinterpret_cast<__m256i*>(packData.data() +  8), c);
         _mm256_storeu_si256(reinterpret_cast<__m256i*>(packData.data() + 12), d);
 
-
         const size_t n_full = N / 64;
-        rest   = N % 64;
         const uint64_t* in  = packData.data();
         int* out           = cw.data();
         alignas(16) uint8_t tmp[64];
@@ -435,20 +371,10 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
             for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
         }
-
-
-
-
     }
-
-
-
-
-
 
     if(N==512)
     {
-
 
         // Load 32 × 64‑bit words into eight 256‑bit lanes (a – h)
         __m256i a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(packData.data() +  0));
@@ -466,9 +392,6 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         };
         const int shifts[8] = {128,64,32,16,8,4,2,1};
 
-
-
-
         // Applique les 8 sous‑étages (k = 128 … 1) sur un registre de 256 bits
         auto process = [&](__m256i& reg) {
             for (int s = 0; s < 8; ++s) {
@@ -488,14 +411,11 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
 
                 }
 
-
                 __m256i innerCarry = _mm256_srli_epi64(shifted, 64 - rst);
                 __m256i rotate     = _mm256_permute4x64_epi64(innerCarry, 0x93);
                 __m256i carryMask  = _mm256_blend_epi32(_mm256_setzero_si256(), rotate, 0xFC);
                 shifted              = _mm256_slli_epi64(shifted, rst);
                 shifted              = _mm256_or_si256(shifted, carryMask);
-
-
 
                 const __m256i res     = _mm256_and_si256(shifted, mask);
 
@@ -504,50 +424,28 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             }
         };
 
-
         process(a); process(b);
 
-
         // stage of 512 vectors
-        a ^= b; 
-
-
-
-
-
+        a ^= b;
 
         // Apply frozen‑bit mask (keeps only non‑frozen bits for the second half transform)
         auto apply_mask = [&](auto& reg, size_t offset){
             __m256i m = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(packed_frozen_bits.data() + offset));
             reg = _mm256_and_si256(reg, m);
         };
-        apply_mask(a,0); apply_mask(b,4); 
+        apply_mask(a,0); apply_mask(b,4);
 
-
-
-
-
-
-
-
-
-
-        process(a); process(b); 
-
+        process(a); process(b);
 
         // stage of 512 vectors
-        a ^= b; 
-
-
+        a ^= b;
 
         // Store and unpack
         _mm256_storeu_si256(reinterpret_cast<__m256i_u*>(packData.data()), a);
         _mm256_storeu_si256(reinterpret_cast<__m256i*>(packData.data() +  4), b);
 
-
-
         const size_t n_full = N / 64;
-        rest   = N % 64;
         const uint64_t* in  = packData.data();
         int* out           = cw.data();
         alignas(16) uint8_t tmp[64];
@@ -564,29 +462,10 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
             for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
         }
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     if(N==256)
     {
-
-
-
         // Load 32 × 64‑bit words into eight 256‑bit lanes (a – h)
         __m256i a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(packData.data() +  0));
 
@@ -602,9 +481,6 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         };
         const int shifts[8] = {128,64,32,16,8,4,2,1};
 
-
-
-
         // Applique les 8 sous‑étages (k = 128 … 1) sur un registre de 256 bits
         auto process = [&](__m256i& reg) {
             for (int s = 0; s < 8; ++s) {
@@ -624,14 +500,11 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
 
                 }
 
-
                 __m256i innerCarry = _mm256_srli_epi64(shifted, 64 - rst);
                 __m256i rotate     = _mm256_permute4x64_epi64(innerCarry, 0x93);
                 __m256i carryMask  = _mm256_blend_epi32(_mm256_setzero_si256(), rotate, 0xFC);
                 shifted              = _mm256_slli_epi64(shifted, rst);
                 shifted              = _mm256_or_si256(shifted, carryMask);
-
-
 
                 const __m256i res     = _mm256_and_si256(shifted, mask);
 
@@ -640,13 +513,7 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             }
         };
 
-
         process(a);
-
-
-
-
-
 
         // Apply frozen‑bit mask (keeps only non‑frozen bits for the second half transform)
         auto apply_mask = [&](auto& reg, size_t offset){
@@ -655,28 +522,12 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         };
         apply_mask(a,0);
 
-
-
-
-
-
-
-
-
-
-        process(a); 
-
-
-
-
+        process(a);
 
         // Store and unpack
         _mm256_storeu_si256(reinterpret_cast<__m256i_u*>(packData.data()), a);
 
-
-
         const size_t n_full = N / 64;
-        rest   = N % 64;
         const uint64_t* in  = packData.data();
         int* out           = cw.data();
         alignas(16) uint8_t tmp[64];
@@ -693,21 +544,7 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
             for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
         }
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     if(N==128)
     {
@@ -719,12 +556,11 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         // Build full bit sequence: 0 on frozen positions, info[i] on information positions
         std::vector<std::uint8_t> bits(N_0, 0);
 
-
         if (crc == nullptr)
         {
             for (size_t i = 0; i < info_pos.size(); ++i)
                 bits[info_pos[i]] = (uint8_t) info[i];
-                    
+
         }
         else
         {
@@ -733,12 +569,9 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
                 bits[info_pos[i]] = (uint8_t) U_K_crc[i];
         }
 
-
-
         const std::uint8_t* vec_in    = bits.data();
         std::uint64_t*      symbs_out = packData.data();
         const std::size_t   n_symbs   = N / 64;
-        std::size_t   rest      = N_0 % 64;
 
         const __m256i zero = _mm256_setzero_si256();
 
@@ -751,7 +584,6 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             uint32_t ms1 = static_cast<uint32_t>(_mm256_movemask_epi8(m1));
             uint64_t pack_rev = (static_cast<uint64_t>(ms1) << 32) | ms0;
 
-
             pack_rev = ((pack_rev >> 1)  & 0x5555555555555555ULL) | ((pack_rev & 0x5555555555555555ULL) << 1);
             pack_rev = ((pack_rev >> 2)  & 0x3333333333333333ULL) | ((pack_rev & 0x3333333333333333ULL) << 2);
             pack_rev = ((pack_rev >> 4)  & 0x0f0f0f0f0f0f0f0fULL) | ((pack_rev & 0x0f0f0f0f0f0f0f0fULL) << 4);
@@ -759,15 +591,9 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             pack_rev = ((pack_rev >> 16) & 0x0000ffff0000ffffULL) | ((pack_rev & 0x0000ffff0000ffffULL) << 16);
             pack_rev =  (pack_rev >> 32) | (pack_rev << 32);
 
-
             *symbs_out++ = pack_rev;
             vec_in += 64;
         }
-
-
-
-
-
 
         // Load 32 × 64‑bit words into eight 256‑bit lanes (a – h)
         __m256i a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(packData.data() +  0));
@@ -782,9 +608,6 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             {0xAAAAAAAAAAAAAAAAULL, 0xAAAAAAAAAAAAAAAAULL, 0xAAAAAAAAAAAAAAAAULL, 0xAAAAAAAAAAAAAAAAULL}
         };
         const int shifts[7] = {64,32,16,8,4,2,1};
-
-
-
 
         // Applique les 8 sous‑étages (k = 128 … 1) sur un registre de 256 bits
         auto process = [&](__m256i& reg) {
@@ -805,14 +628,11 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
 
                 }
 
-
                 __m256i innerCarry = _mm256_srli_epi64(shifted, 64 - rst);
                 __m256i rotate     = _mm256_permute4x64_epi64(innerCarry, 0x93);
                 __m256i carryMask  = _mm256_blend_epi32(_mm256_setzero_si256(), rotate, 0xFC);
                 shifted              = _mm256_slli_epi64(shifted, rst);
                 shifted              = _mm256_or_si256(shifted, carryMask);
-
-
 
                 const __m256i res     = _mm256_and_si256(shifted, mask);
 
@@ -821,13 +641,7 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             }
         };
 
-
         process(a);
-
-
-
-
-
 
         // Apply frozen‑bit mask (keeps only non‑frozen bits for the second half transform)
         auto apply_mask = [&](auto& reg, size_t offset){
@@ -836,28 +650,12 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
         };
         apply_mask(a,0);
 
-
-
-
-
-
-
-
-
-
-        process(a); 
-
-
-
-
+        process(a);
 
         // Store and unpack
         _mm256_storeu_si256(reinterpret_cast<__m256i_u*>(packData.data()), a);
 
-
-
         const size_t n_full = N / 64;
-        rest   = N % 64;
         const uint64_t* in  = packData.data();
         int* out           = cw.data();
         alignas(16) uint8_t tmp[64];
@@ -874,19 +672,7 @@ void __attribute__((target("avx2")))  polar::encode(bitvec &info, bitvec &cw)
             _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
             for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
         }
-
     }
-
-
-
-
-
-
-
-
-
-
-
 }
 
 int polar::decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
