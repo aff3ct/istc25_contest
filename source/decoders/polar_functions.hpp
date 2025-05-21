@@ -1,5 +1,9 @@
 #ifndef POLAR_FUNCTIONS_HPP_
 #define POLAR_FUNCTIONS_HPP_
+#pragma GCC push_options
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt,fma")
+
+#include <immintrin.h>
 
 template <typename B, typename R>
 B sgn(R val)
@@ -14,13 +18,43 @@ constexpr B bit_init()
 }
 
 
+
+// 8+ AVX2
+
 template <int N_ELMTS>
-inline static void f(const float* l_a,
+inline static void f(
+       const float* l_a,
        const float* l_b,
        float* l_c,
        int n_elmts)
 {
-    for (auto i = 0; i < N_ELMTS; i++)
+    for (auto i = 0; i < N_ELMTS; i += 8)
+    {
+        const auto r_lambda_a = _mm256_loadu_ps(l_a + i);
+        const auto r_lambda_b = _mm256_loadu_ps(l_b + i);
+        const auto abs_mask = _mm256_castsi256_ps(_mm256_set1_epi32(0x7FFFFFFF));
+        const auto r_abs_lambda_a = _mm256_and_ps(r_lambda_a, abs_mask);
+        const auto r_abs_lambda_b = _mm256_and_ps(r_lambda_b, abs_mask);
+        const auto r_min_abs_lambda = _mm256_min_ps(r_abs_lambda_a, r_abs_lambda_b);
+        const auto msb_mask = _mm256_castsi256_ps(_mm256_set1_epi32(0x80000000));
+        const auto r_sign_lambda_a = _mm256_and_ps(r_lambda_a, msb_mask);
+        const auto r_sign_lambda_b = _mm256_and_ps(r_lambda_b, msb_mask);
+        const auto r_sign_lambda_c = _mm256_xor_ps(r_sign_lambda_a, r_sign_lambda_b);
+        const auto r_lambda_c = _mm256_xor_ps(r_min_abs_lambda, _mm256_and_ps(r_sign_lambda_c, msb_mask));
+
+        _mm256_storeu_ps(l_c + i, r_lambda_c);
+    }
+}
+
+// 4 2 & 1
+template <>
+inline void f<4>(
+       const float* l_a,
+       const float* l_b,
+       float* l_c,
+       int n_elmts)
+{
+    for (auto i = 0; i < 4; i++)
     {
         auto sign_lambda_a_b = sgn<int, float>(l_a[i] * l_b[i]);
         auto abs_lambda_a = fabsf(l_a[i]);
@@ -28,6 +62,24 @@ inline static void f(const float* l_a,
         l_c[i] = (float)sign_lambda_a_b * std::min(abs_lambda_a, abs_lambda_b);
     }
 }
+// 4 2 & 1
+template <>
+inline void f<2>(
+       const float* l_a,
+       const float* l_b,
+       float* l_c,
+       int n_elmts)
+{
+    for (auto i = 0; i < 2; i++)
+    {
+        auto sign_lambda_a_b = sgn<int, float>(l_a[i] * l_b[i]);
+        auto abs_lambda_a = fabsf(l_a[i]);
+        auto abs_lambda_b = fabsf(l_b[i]);
+        l_c[i] = (float)sign_lambda_a_b * std::min(abs_lambda_a, abs_lambda_b);
+    }
+}
+
+
 
 template <int N_ELMTS>
 inline static void f(std::vector<float>& l,
@@ -52,6 +104,30 @@ inline static void g(const float* l_a,
         int n_elmts)
 {
     for (auto i = 0; i < N_ELMTS; i++)
+        l_c[i] = ((s_a[i] == 0) ? l_a[i] : -l_a[i]) + l_b[i];
+}
+
+template <>
+inline void g<4>(
+        const float* l_a,
+        const float* l_b,
+        const int* s_a,
+        float* l_c,
+        int n_elmts)
+{
+    for (auto i = 0; i < 4; i++)
+        l_c[i] = ((s_a[i] == 0) ? l_a[i] : -l_a[i]) + l_b[i];
+}
+
+template <>
+inline void g<2>(
+        const float* l_a,
+        const float* l_b,
+        const int* s_a,
+        float* l_c,
+        int n_elmts)
+{
+    for (auto i = 0; i < 2; i++)
         l_c[i] = ((s_a[i] == 0) ? l_a[i] : -l_a[i]) + l_b[i];
 }
 
