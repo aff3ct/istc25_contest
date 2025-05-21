@@ -114,9 +114,7 @@ void polar::encode(bitvec &info, bitvec &cw)
 
     int N   = cw.size();
 
-    switch(N)
-    {
-        case 2048:
+        if(N==2048)
         {
 
             const size_t uint64N  = (N + 63) / 64;
@@ -423,7 +421,7 @@ void polar::encode(bitvec &info, bitvec &cw)
             }
         }
 
-        case 512:
+        if(N==512)
         {
 
 
@@ -561,7 +559,7 @@ void polar::encode(bitvec &info, bitvec &cw)
                 for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
             }
         }
-        case 256:
+        if(N==256)
 
         {
 
@@ -692,7 +690,7 @@ void polar::encode(bitvec &info, bitvec &cw)
             }
         }
 
-        case 128:
+        if(N==128)
         {
 
             int N_0   = 256;
@@ -829,7 +827,7 @@ void polar::encode(bitvec &info, bitvec &cw)
 
         }
 
-    }
+    
 
 }
 
