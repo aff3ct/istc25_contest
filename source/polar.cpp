@@ -114,7 +114,9 @@ void polar::encode(bitvec &info, bitvec &cw)
 
     int N   = cw.size();
 
-        if(N==2048)
+    switch(N)
+    {
+        case 2048:
         {
 
             const size_t uint64N  = (N + 63) / 64;
@@ -273,9 +275,10 @@ void polar::encode(bitvec &info, bitvec &cw)
                 _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
                 for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
             }
+            break; 
         }
+        case 1024:
 
-        if(N==1024)
         {
             const size_t uint64N  = (N + 63) / 64;
             std::vector<std::uint64_t> packData(uint64N, 0);
@@ -419,9 +422,11 @@ void polar::encode(bitvec &info, bitvec &cw)
                 _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
                 for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
             }
+            break; 
+
         }
 
-        if(N==512)
+        case 512:
         {
 
 
@@ -558,8 +563,11 @@ void polar::encode(bitvec &info, bitvec &cw)
                 _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
                 for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
             }
+            break; 
+
         }
-        if(N==256)
+
+        case 256:
 
         {
 
@@ -688,9 +696,11 @@ void polar::encode(bitvec &info, bitvec &cw)
                 _mm_store_si128(reinterpret_cast<__m128i*>(tmp + 48), _mm_unpacklo_epi64(r1, r0));
                 for (int k = 0; k < 64; ++k) *out++ = static_cast<int>(tmp[k]);
             }
+            break; 
+
         }
 
-        if(N==128)
+        case 128:
         {
 
             int N_0   = 256;
@@ -826,8 +836,10 @@ void polar::encode(bitvec &info, bitvec &cw)
         //    std::cout << "Time taken: " << enc_time << " ns" << std::endl;
 
         }
+            break; 
 
-    
+
+  }  
 
 }
 
