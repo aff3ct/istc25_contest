@@ -1,5 +1,5 @@
-#ifndef DECODER_POLAR_SCL_FAST_SYS_CA_N512_K268_SNR29_HPP_
-#define DECODER_POLAR_SCL_FAST_SYS_CA_N512_K268_SNR29_HPP_
+#ifndef DECODER_POLAR_SCL_FAST_CA_SYS_N512_K256_HPP_
+#define DECODER_POLAR_SCL_FAST_CA_SYS_N512_K256_HPP_
 
 #include <vector>
 #include <cassert>
@@ -10,37 +10,37 @@ namespace aff3ct
 {
 namespace module
 {
-static const std::vector<bool> Decoder_polar_SCL_fast_CA_sys_fb_512_268_29 = {
+static const std::vector<bool> Decoder_polar_SCL_fast_CA_sys_fb_512_256 = {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-class Decoder_polar_SCL_fast_CA_sys_N512_K268_SNR29 : public Decoder_polar_SCL_fast_CA_sys
+class Decoder_polar_SCL_fast_CA_sys_N512_K256 : public Decoder_polar_SCL_fast_CA_sys
 {
 public:
-	Decoder_polar_SCL_fast_CA_sys_N512_K268_SNR29(const int& K, const int& N, const int& L, CRC<int>& crc, const int n_frames = 1)
-	:  Decoder_polar_SCL_fast_CA_sys(K, N, L, Decoder_polar_SCL_fast_CA_sys_fb_512_268_29, crc)
+	Decoder_polar_SCL_fast_CA_sys_N512_K256(const int& K, const int& N, const int& L, CRC<int>& crc, const int n_frames = 1)
+	:  Decoder_polar_SCL_fast_CA_sys(K, N, L, Decoder_polar_SCL_fast_CA_sys_fb_512_256, crc)
 	{
-		const std::string name = "Decoder_polar_SCL_fast_CA_sys_N512_K268_SNR29";
+		const std::string name = "Decoder_polar_SCL_fast_CA_sys_N512_K256";
 		this->set_name(name);
 		assert(N == 512);
 		assert(K == 268);
 	}
 
-	virtual ~Decoder_polar_SCL_fast_CA_sys_N512_K268_SNR29()
+	virtual ~Decoder_polar_SCL_fast_CA_sys_N512_K256()
 	{
 	}
 
@@ -66,13 +66,13 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 7 -1)].data();
 			f<64>(parent + 256, parent + 256 + 64, child + 256 + 128, 64);
 		}
-		this->template update_paths_r0<6, 64>(384, 0);
+		this->template update_paths_rep<6, 64>(384, 0);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			const auto path   = this->paths[i];
 			const auto parent = l[this->path_2_array    [path][7   ]].data();
 			const auto child  = l[this->up_ref_array_idx(path, 7 -1)].data();
-			g0<64>(parent + 256, parent + 256 + 64, child + 256 + 128, 64);
+			gr<64>(parent + 256, parent + 256 + 64, s[path].data() + 0, child + 256 + 128, 64);
 		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
@@ -172,7 +172,7 @@ public:
 		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
-			xo0<64>(s[this->paths[i]], 0 + 64, 0, 64);
+			xo<64>(s[this->paths[i]], 0, 0 + 64, 0, 64);
 		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
@@ -195,13 +195,89 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 6 -1)].data();
 			f<32>(parent + 384, parent + 384 + 32, child + 384 + 64, 32);
 		}
-		this->template update_paths_rep<5, 32>(448, 128);
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			const auto path   = this->paths[i];
+			const auto parent = l[this->path_2_array    [path][5   ]].data();
+			const auto child  = l[this->up_ref_array_idx(path, 5 -1)].data();
+			f<16>(parent + 448, parent + 448 + 16, child + 448 + 32, 16);
+		}
+		this->template update_paths_r0<4, 16>(480, 128);
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			const auto path   = this->paths[i];
+			const auto parent = l[this->path_2_array    [path][5   ]].data();
+			const auto child  = l[this->up_ref_array_idx(path, 5 -1)].data();
+			g0<16>(parent + 448, parent + 448 + 16, child + 448 + 32, 16);
+		}
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			const auto path   = this->paths[i];
+			const auto parent = l[this->path_2_array    [path][4   ]].data();
+			const auto child  = l[this->up_ref_array_idx(path, 4 -1)].data();
+			f<8>(parent + 480, parent + 480 + 8, child + 480 + 16, 8);
+		}
+		this->template update_paths_r0<3, 8>(496, 144);
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			const auto path   = this->paths[i];
+			const auto parent = l[this->path_2_array    [path][4   ]].data();
+			const auto child  = l[this->up_ref_array_idx(path, 4 -1)].data();
+			g0<8>(parent + 480, parent + 480 + 8, child + 480 + 16, 8);
+		}
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			const auto path   = this->paths[i];
+			const auto parent = l[this->path_2_array    [path][3   ]].data();
+			const auto child  = l[this->up_ref_array_idx(path, 3 -1)].data();
+			f<4>(parent + 496, parent + 496 + 4, child + 496 + 8, 4);
+		}
+		this->template update_paths_r0<2, 4>(504, 152);
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			const auto path   = this->paths[i];
+			const auto parent = l[this->path_2_array    [path][3   ]].data();
+			const auto child  = l[this->up_ref_array_idx(path, 3 -1)].data();
+			g0<4>(parent + 496, parent + 496 + 4, child + 496 + 8, 4);
+		}
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			const auto path   = this->paths[i];
+			const auto parent = l[this->path_2_array    [path][2   ]].data();
+			const auto child  = l[this->up_ref_array_idx(path, 2 -1)].data();
+			f<2>(parent + 504, parent + 504 + 2, child + 504 + 4, 2);
+		}
+		this->template update_paths_r0<1, 2>(508, 156);
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			const auto path   = this->paths[i];
+			const auto parent = l[this->path_2_array    [path][2   ]].data();
+			const auto child  = l[this->up_ref_array_idx(path, 2 -1)].data();
+			g0<2>(parent + 504, parent + 504 + 2, child + 504 + 4, 2);
+		}
+		this->template update_paths_r1<1, 2>(508, 158);
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			xo0<2>(s[this->paths[i]], 156 + 2, 156, 2);
+		}
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			xo0<4>(s[this->paths[i]], 152 + 4, 152, 4);
+		}
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			xo0<8>(s[this->paths[i]], 144 + 8, 144, 8);
+		}
+		for (auto i = 0; i < this->n_active_paths; i++) 
+		{
+			xo0<16>(s[this->paths[i]], 128 + 16, 128, 16);
+		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			const auto path   = this->paths[i];
 			const auto parent = l[this->path_2_array    [path][6   ]].data();
 			const auto child  = l[this->up_ref_array_idx(path, 6 -1)].data();
-			gr<32>(parent + 384, parent + 384 + 32, s[path].data() + 128, child + 384 + 64, 32);
+			g<32>(parent + 384, parent + 384 + 32, s[path].data() + 128, child + 384 + 64, 32);
 		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
@@ -232,18 +308,18 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 3 -1)].data();
 			f<4>(parent + 496, parent + 496 + 4, child + 496 + 8, 4);
 		}
-		this->template update_paths_rep<2, 4>(504, 168);
+		this->template update_paths_r0<2, 4>(504, 168);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			const auto path   = this->paths[i];
 			const auto parent = l[this->path_2_array    [path][3   ]].data();
 			const auto child  = l[this->up_ref_array_idx(path, 3 -1)].data();
-			gr<4>(parent + 496, parent + 496 + 4, s[path].data() + 168, child + 496 + 8, 4);
+			g0<4>(parent + 496, parent + 496 + 4, child + 496 + 8, 4);
 		}
 		this->template update_paths_spc<2, 4>(504, 172);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
-			xo<4>(s[this->paths[i]], 168, 168 + 4, 168, 4);
+			xo0<4>(s[this->paths[i]], 168 + 4, 168, 4);
 		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
@@ -404,7 +480,7 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 4 -1)].data();
 			g<8>(parent + 480, parent + 480 + 8, s[path].data() + 208, child + 480 + 16, 8);
 		}
-		this->template update_paths_r1<3, 8>(496, 216);
+		this->template update_paths_spc<3, 8>(496, 216);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			xo<8>(s[this->paths[i]], 208, 208 + 8, 208, 8);
@@ -524,13 +600,13 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 5 -1)].data();
 			f<16>(parent + 448, parent + 448 + 16, child + 448 + 32, 16);
 		}
-		this->template update_paths_r0<4, 16>(480, 256);
+		this->template update_paths_rep<4, 16>(480, 256);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			const auto path   = this->paths[i];
 			const auto parent = l[this->path_2_array    [path][5   ]].data();
 			const auto child  = l[this->up_ref_array_idx(path, 5 -1)].data();
-			g0<16>(parent + 448, parent + 448 + 16, child + 448 + 32, 16);
+			gr<16>(parent + 448, parent + 448 + 16, s[path].data() + 256, child + 448 + 32, 16);
 		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
@@ -573,7 +649,7 @@ public:
 		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
-			xo0<16>(s[this->paths[i]], 256 + 16, 256, 16);
+			xo<16>(s[this->paths[i]], 256, 256 + 16, 256, 16);
 		}
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
@@ -657,7 +733,7 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 3 -1)].data();
 			gr<4>(parent + 496, parent + 496 + 4, s[path].data() + 304, child + 496 + 8, 4);
 		}
-		this->template update_paths_r1<2, 4>(504, 308);
+		this->template update_paths_spc<2, 4>(504, 308);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			xo<4>(s[this->paths[i]], 304, 304 + 4, 304, 4);
@@ -725,32 +801,13 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 3 -1)].data();
 			f<4>(parent + 496, parent + 496 + 4, child + 496 + 8, 4);
 		}
-		for (auto i = 0; i < this->n_active_paths; i++) 
-		{
-			const auto path   = this->paths[i];
-			const auto parent = l[this->path_2_array    [path][2   ]].data();
-			const auto child  = l[this->up_ref_array_idx(path, 2 -1)].data();
-			f<2>(parent + 504, parent + 504 + 2, child + 504 + 4, 2);
-		}
-		this->template update_paths_r0<1, 2>(508, 328);
-		for (auto i = 0; i < this->n_active_paths; i++) 
-		{
-			const auto path   = this->paths[i];
-			const auto parent = l[this->path_2_array    [path][2   ]].data();
-			const auto child  = l[this->up_ref_array_idx(path, 2 -1)].data();
-			g0<2>(parent + 504, parent + 504 + 2, child + 504 + 4, 2);
-		}
-		this->template update_paths_r1<1, 2>(508, 330);
-		for (auto i = 0; i < this->n_active_paths; i++) 
-		{
-			xo0<2>(s[this->paths[i]], 328 + 2, 328, 2);
-		}
+		this->template update_paths_rep<2, 4>(504, 328);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			const auto path   = this->paths[i];
 			const auto parent = l[this->path_2_array    [path][3   ]].data();
 			const auto child  = l[this->up_ref_array_idx(path, 3 -1)].data();
-			g<4>(parent + 496, parent + 496 + 4, s[path].data() + 328, child + 496 + 8, 4);
+			gr<4>(parent + 496, parent + 496 + 4, s[path].data() + 328, child + 496 + 8, 4);
 		}
 		this->template update_paths_r1<2, 4>(504, 332);
 		for (auto i = 0; i < this->n_active_paths; i++) 
@@ -887,7 +944,7 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 7 -1)].data();
 			g<64>(parent + 256, parent + 256 + 64, s[path].data() + 384, child + 256 + 128, 64);
 		}
-		this->template update_paths_spc<6, 64>(384, 448);
+		this->template update_paths_r1<6, 64>(384, 448);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			xo<64>(s[this->paths[i]], 384, 384 + 64, 384, 64);
