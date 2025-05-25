@@ -126,6 +126,23 @@ def main():
         f.write('            }\n')
         f.write('};\n')
 
+    # create test_params files
+    test_params_10_3_file = os.path.join(args.source_path, 'test_params_10-3.txt')
+# EbN0_1e-3": 5.05,
+#     "EbN0_1e-5": 6.45,
+    with open(test_params_10_3_file, 'w') as f:
+        for data in json_data:
+            esn0dB_3 = data['EbN0_1e-3'] + 10 * math.log10(data['K'] / data['N'])
+            esn0lin_3 = 10 ** (esn0dB_3 / 10)
+            f.write(f'{data["K"]} {data["N"]} {esn0lin_3} 100000 1 \n')
+
+    test_params_10_5_file = os.path.join(args.source_path, 'test_params_10-5.txt')
+
+    with open(test_params_10_5_file, 'w') as f:
+        for data in json_data:
+            esn0dB_5 = data['EbN0_1e-5'] + 10 * math.log10(data['K'] / data['N'])
+            esn0lin_5 = 10 ** (esn0dB_5 / 10)
+            f.write(f'{data["K"]} {data["N"]} {esn0lin_5} 10000000 1 \n')
 
 if __name__ == "__main__":
     main()
