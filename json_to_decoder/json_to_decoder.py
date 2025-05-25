@@ -128,8 +128,7 @@ def main():
 
     # create test_params files
     test_params_10_3_file = os.path.join(args.source_path, 'test_params_10-3.txt')
-# EbN0_1e-3": 5.05,
-#     "EbN0_1e-5": 6.45,
+
     with open(test_params_10_3_file, 'w') as f:
         for data in json_data:
             esn0dB_3 = data['EbN0_1e-3'] + 10 * math.log10(data['K'] / data['N'])
