@@ -13,6 +13,8 @@
 
 #include "decoders/CRC.hpp"
 
+#include "decoders/polar_functions.hpp"
+
 using intvec = std::vector<int>;
 using fltvec = std::vector<float>;
 

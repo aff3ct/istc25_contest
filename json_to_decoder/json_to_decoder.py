@@ -101,6 +101,7 @@ def main():
             f.write('#include "decoders/generated/Decoder_polar_SCL_fast_CA_sys_N' + str(data['N']) + '_K' + str(data['K']) + '.hpp"\n')
             f.write('\n')
 
+        f.write('template <typename API_polar>\n')
         f.write('class factory\n')
         f.write('{\n')
         f.write('    public:\n')
@@ -115,8 +116,8 @@ def main():
             f.write('            {\n')
             f.write('                int L = ' + str(data['L']) + ';\n')
             f.write('                aff3ct::module::CRC<int>* crc = new aff3ct::module::CRC<int>(K, "' + data['crc_poly'] + '", ' + str(data['crc_size']) + ');\n')
-            f.write('                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N' + str(data['N']) + '_K' + str(data['K']) + '(K + crc->get_size(), N_polar, 1);\n')
-            f.write('                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N' + str(data['N']) + '_K' + str(data['K']) + '(K + crc->get_size(), N_polar, L, *crc, 1);\n')
+            f.write('                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N' + str(data['N']) + '_K' + str(data['K']) + '<API_polar>(K + crc->get_size(), N_polar, 1);\n')
+            f.write('                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N' + str(data['N']) + '_K' + str(data['K']) + '<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);\n')
             f.write('                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_' + str(data['N']) + '_' + str(data['K']) + ',\n')
             f.write('                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);\n')
             f.write('            }\n')

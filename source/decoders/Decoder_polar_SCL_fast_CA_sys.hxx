@@ -27,7 +27,7 @@ void Decoder_polar_SCL_fast_CA_sys
 
 //	if (!polar_patterns.exist_node_type(polar_node_t::RATE_0_LEFT, REV_D +1))
     for (auto i = 0; i < n_active_paths; i++)
-        h0<N_ELMTS>(s[paths[i]], off_s, N_ELMTS);
+        base_api_polar::h0<N_ELMTS>(s[paths[i]], off_s, N_ELMTS);
 }
 
 template <int REV_D, int N_ELMTS>
@@ -104,7 +104,7 @@ void Decoder_polar_SCL_fast_CA_sys
 			const auto dup   = best_idx[i] % 4;
 			const auto array = path_2_array[path][REV_D];
 
-			h<N_ELMTS>(s[path], l[array], off_l, off_s, N_ELMTS);
+			base_api_polar::h<N_ELMTS>(s[path], l[array], off_l, off_s, N_ELMTS);
 
 			const auto new_path = (dup_count[path] > 1) ? duplicate_tree(path, off_l, off_s, N_ELMTS) : path;
 			flip_bits_r1(path, new_path, dup, off_s, N_ELMTS);
@@ -137,9 +137,7 @@ void Decoder_polar_SCL_fast_CA_sys
 		metrics_vec[0][2 * path +0] = sat_m(metrics[path] + pen0);
 		metrics_vec[0][2 * path +1] = sat_m(metrics[path] + pen1);
 	}
-	// std::cout << "hello" << std::endl;
-	// std::cout << "n_active_paths: " << n_active_paths << std::endl;
-	// std::cout << "L: " << L << std::endl;
+
 	if (n_active_paths <= L / 2)
 	{
 		const auto n_active_paths_cpy = n_active_paths;
@@ -190,10 +188,6 @@ void Decoder_polar_SCL_fast_CA_sys
 			dup_count[path] = 0;
 		}
 	}
-	// std::cout << "metrics" << std::endl;
-	// for (auto i = 0; i < n_active_paths; i++)
-	// 	std::cout << metrics[i] << " ";
-	// std::cout << std::endl;
 }
 
 template <int REV_D, int N_ELMTS>
@@ -297,7 +291,7 @@ void Decoder_polar_SCL_fast_CA_sys
 		const auto dup   = best_idx[i] % n_cands;
 		const auto array = path_2_array[path][REV_D];
 
-		h<N_ELMTS>(s[path], l[array], off_l, off_s, N_ELMTS);
+		base_api_polar::h<N_ELMTS>(s[path], l[array], off_l, off_s, N_ELMTS);
 
 		const auto new_path = (dup_count[path] > 1) ? duplicate_tree(path, off_l, off_s, N_ELMTS) : path;
 		flip_bits_spc(path, new_path, dup, off_s, N_ELMTS);
@@ -417,27 +411,18 @@ bool Decoder_polar_SCL_fast_CA_sys
 int Decoder_polar_SCL_fast_CA_sys
 ::select_best_path()
 {
-		// best_path = -1;
-		// for (auto i = 0; i < n_active_paths; i++)
-		// 	if (best_path == -1 || metrics[paths[i]] < metrics[best_path])
-		// 		best_path = paths[i];
+	std::sort(this->paths.begin(), this->paths.begin() + this->n_active_paths,
+		[this](int x, int y){
+			return this->metrics[x] < this->metrics[y];
+		});
 
-		// if (best_path == -1)
-		// 	best_path = 0;
+	auto i = 0;
+	while (i < this->n_active_paths && !crc_check(this->s[this->paths[i]])) i++;
 
-		// return n_active_paths;
-		std::sort(this->paths.begin(), this->paths.begin() + this->n_active_paths,
-			[this](int x, int y){
-				return this->metrics[x] < this->metrics[y];
-			});
+	this->best_path = (i == this->n_active_paths) ? this->paths[0] : this->paths[i];
+	fast_store = i != this->n_active_paths;
 
-		auto i = 0;
-		while (i < this->n_active_paths && !crc_check(this->s[this->paths[i]])) i++;
-
-		this->best_path = (i == this->n_active_paths) ? this->paths[0] : this->paths[i];
-		fast_store = i != this->n_active_paths;
-
-		return this->n_active_paths -i;
+	return this->n_active_paths -i;
 }
 
 void Decoder_polar_SCL_fast_CA_sys
