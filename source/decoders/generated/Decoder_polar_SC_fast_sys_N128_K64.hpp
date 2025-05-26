@@ -1,5 +1,5 @@
-#ifndef DECODER_POLAR_SC_FAST_SYS_N128_K72_SNR39_HPP_
-#define DECODER_POLAR_SC_FAST_SYS_N128_K72_SNR39_HPP_
+#ifndef DECODER_POLAR_SC_FAST_SYS_N128_K64_HPP_
+#define DECODER_POLAR_SC_FAST_SYS_N128_K64_HPP_
 
 #include <vector>
 #include <cassert>
@@ -10,25 +10,25 @@ namespace aff3ct
 {
 namespace module
 {
-static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_128_72_39 = {
+static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_128_64 = {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-class Decoder_polar_SC_fast_sys_N128_K72_SNR39 : public Decoder_polar_SC_fast_sys
+class Decoder_polar_SC_fast_sys_N128_K64 : public Decoder_polar_SC_fast_sys
 {
 public:
-	Decoder_polar_SC_fast_sys_N128_K72_SNR39(const int& K, const int& N, const int n_frames = 1)
-	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_128_72_39)
+	Decoder_polar_SC_fast_sys_N128_K64(const int& K, const int& N, const int n_frames = 1)
+	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_128_64)
 	{
-		const std::string name = "Decoder_polar_SC_fast_sys_N128_K72_SNR39";
+		const std::string name = "Decoder_polar_SC_fast_sys_N128_K64";
 		this->set_name(name);
 		assert(N == 128);
-		assert(K == 72);
+		assert(K == 71);
 	}
 
-	virtual ~Decoder_polar_SC_fast_sys_N128_K72_SNR39()
+	virtual ~Decoder_polar_SC_fast_sys_N128_K64()
 	{
 	}
 
@@ -81,7 +81,7 @@ public:
 		f  < 4>(   l, 240+  0, 240+  4,          240+  8,  4);
 		rep< 4>(s, l, 248+  0,                    72+  0,  4);
 		gr < 4>(s, l, 240+  0, 240+  4,  72+  0, 240+  8,  4);
-		h  < 4>(s, l, 248+  0,                    76+  0,  4);
+		spc< 4>(s, l, 248+  0,                    76+  0,  4);
 		xo < 4>(s,     72+  0,  72+  4,           72+  0,  4);
 		xo < 8>(s,     64+  0,  64+  8,           64+  0,  8);
 		g  <16>(s, l, 192+  0, 192+ 16,  64+  0, 192+ 32, 16);

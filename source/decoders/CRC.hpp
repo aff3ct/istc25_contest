@@ -74,6 +74,7 @@ class CRC
 
     public:
         CRC(const int K, const std::string& poly_key);
+        CRC(const int K, const std::string& poly_key, const int size);
 
         void build(const B* U_K1, B* U_K2);
         void extract(const B* V_K1, B* V_K2);

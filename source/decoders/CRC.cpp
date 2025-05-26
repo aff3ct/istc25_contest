@@ -1,6 +1,8 @@
 #include "CRC.hpp"
 
 #include <stdexcept>
+#include <iostream>
+
 
 using namespace aff3ct;
 using namespace aff3ct::module;
@@ -9,6 +11,39 @@ template <typename B>
 CRC<B>::CRC(const int K, const std::string& poly_key)
     : K(K)
     , size(CRC<B>::get_size(poly_key))
+    , polynomial(0)
+    , polynomial_packed(CRC<B>::get_value(poly_key))
+    , buff_crc(0)
+    , lut_crc32(256)
+    , polynomial_packed_rev(0)
+{
+    polynomial.push_back(1);
+
+    for (auto i = 0; i < size; i++)
+        polynomial.push_back((polynomial_packed >> ((size - 1) - i)) & 1);
+    buff_crc.resize(K + size);
+
+    for (auto i = 0; i < (int)sizeof(polynomial_packed) * 8; i++)
+    {
+        polynomial_packed_rev <<= 1;
+        polynomial_packed_rev |= (polynomial_packed >> i) & 1;
+    }
+    polynomial_packed_rev >>= (sizeof(polynomial_packed) * 8) - size;
+
+    // precompute a lookup table for the v3 implementation of the CRC
+    for (auto i = 0; i < 256; i++)
+    {
+        unsigned crc = i;
+        for (unsigned int j = 0; j < 8; j++)
+            crc = (crc >> 1) ^ (-int(crc & 1) & polynomial_packed_rev);
+        lut_crc32[i] = crc;
+    }
+}
+
+template <typename B>
+CRC<B>::CRC(const int K, const std::string& poly_key, const int size)
+    : K(K)
+    , size(size)
     , polynomial(0)
     , polynomial_packed(CRC<B>::get_value(poly_key))
     , buff_crc(0)
@@ -60,7 +95,13 @@ int CRC<B>::get_size(const std::string& poly_key) const
 template <typename B>
 unsigned CRC<B>::get_value(const std::string& poly_key) const
 {
-    if (known_polynomials.find(poly_key) != known_polynomials.end())
+    // if poly_key starts with "0x"
+    if (poly_key.find("0x") == 0)
+    {
+        std::string poly_key_hex = poly_key.substr(2);
+        return std::stoul(poly_key_hex, nullptr, 16);
+    }
+    else if (known_polynomials.find(poly_key) != known_polynomials.end())
         return std::get<0>(known_polynomials.at(poly_key));
     else
         throw std::invalid_argument("Polynomial not found");

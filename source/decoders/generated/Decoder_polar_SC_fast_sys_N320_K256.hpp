@@ -1,5 +1,5 @@
-#ifndef DECODER_POLAR_SC_FAST_SYS_N512_K266_SNR68_HPP_
-#define DECODER_POLAR_SC_FAST_SYS_N512_K266_SNR68_HPP_
+#ifndef DECODER_POLAR_SC_FAST_SYS_N320_K256_HPP_
+#define DECODER_POLAR_SC_FAST_SYS_N320_K256_HPP_
 
 #include <vector>
 #include <cassert>
@@ -10,8 +10,8 @@ namespace aff3ct
 {
 namespace module
 {
-static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_512_266_68 = {
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 
+static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_320_256 = {
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -19,7 +19,7 @@ static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_512_266_68 = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -28,19 +28,19 @@ static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_512_266_68 = {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-class Decoder_polar_SC_fast_sys_N512_K266_SNR68 : public Decoder_polar_SC_fast_sys
+class Decoder_polar_SC_fast_sys_N320_K256 : public Decoder_polar_SC_fast_sys
 {
 public:
-	Decoder_polar_SC_fast_sys_N512_K266_SNR68(const int& K, const int& N, const int n_frames = 1)
-	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_512_266_68)
+	Decoder_polar_SC_fast_sys_N320_K256(const int& K, const int& N, const int n_frames = 1)
+	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_320_256)
 	{
-		const std::string name = "Decoder_polar_SC_fast_sys_N512_K266_SNR68";
+		const std::string name = "Decoder_polar_SC_fast_sys_N320_K256";
 		this->set_name(name);
 		assert(N == 512);
 		assert(K == 266);
 	}
 
-	virtual ~Decoder_polar_SC_fast_sys_N512_K266_SNR68()
+	virtual ~Decoder_polar_SC_fast_sys_N320_K256()
 	{
 	}
 
@@ -63,7 +63,7 @@ public:
 		f  <  4>(   l, 1008+   0, 1008+   4,            1008+   8,   4);
 		rep<  4>(s, l, 1016+   0,                         24+   0,   4);
 		gr <  4>(s, l, 1008+   0, 1008+   4,   24+   0, 1008+   8,   4);
-		spc<  4>(s, l, 1016+   0,                         28+   0,   4);
+		h  <  4>(s, l, 1016+   0,                         28+   0,   4);
 		xo <  4>(s,      24+   0,   24+   4,              24+   0,   4);
 		xo <  8>(s,      16+   0,   16+   8,              16+   0,   8);
 		xo < 16>(s,       0+   0,    0+  16,               0+   0,  16);
@@ -136,7 +136,7 @@ public:
 		spc<  4>(s, l, 1016+   0,                        260+   0,   4);
 		xo <  4>(s,     256+   0,  256+   4,             256+   0,   4);
 		g  <  8>(s, l,  992+   0,  992+   8,  256+   0,  992+  16,   8);
-		h  <  8>(s, l, 1008+   0,                        264+   0,   8);
+		spc<  8>(s, l, 1008+   0,                        264+   0,   8);
 		xo <  8>(s,     256+   0,  256+   8,             256+   0,   8);
 		g  < 16>(s, l,  960+   0,  960+  16,  256+   0,  960+  32,  16);
 		h  < 16>(s, l,  992+   0,                        272+   0,  16);

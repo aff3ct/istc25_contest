@@ -1,5 +1,5 @@
-#ifndef DECODER_POLAR_SCL_FAST_SYS_CA_N512_K266_SNR68_HPP_
-#define DECODER_POLAR_SCL_FAST_SYS_CA_N512_K266_SNR68_HPP_
+#ifndef DECODER_POLAR_SCL_FAST_CA_SYS_N320_K256_HPP_
+#define DECODER_POLAR_SCL_FAST_CA_SYS_N320_K256_HPP_
 
 #include <vector>
 #include <cassert>
@@ -10,8 +10,8 @@ namespace aff3ct
 {
 namespace module
 {
-static const std::vector<bool> Decoder_polar_SCL_fast_CA_sys_fb_512_266_68 = {
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 
+static const std::vector<bool> Decoder_polar_SCL_fast_CA_sys_fb_320_256 = {
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -19,7 +19,7 @@ static const std::vector<bool> Decoder_polar_SCL_fast_CA_sys_fb_512_266_68 = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -28,19 +28,19 @@ static const std::vector<bool> Decoder_polar_SCL_fast_CA_sys_fb_512_266_68 = {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-class Decoder_polar_SCL_fast_CA_sys_N512_K266_SNR68 : public Decoder_polar_SCL_fast_CA_sys
+class Decoder_polar_SCL_fast_CA_sys_N320_K256 : public Decoder_polar_SCL_fast_CA_sys
 {
 public:
-	Decoder_polar_SCL_fast_CA_sys_N512_K266_SNR68(const int& K, const int& N, const int& L, CRC<int>& crc, const int n_frames = 1)
-	:  Decoder_polar_SCL_fast_CA_sys(K, N, L, Decoder_polar_SCL_fast_CA_sys_fb_512_266_68, crc)
+	Decoder_polar_SCL_fast_CA_sys_N320_K256(const int& K, const int& N, const int& L, CRC<int>& crc, const int n_frames = 1)
+	:  Decoder_polar_SCL_fast_CA_sys(K, N, L, Decoder_polar_SCL_fast_CA_sys_fb_320_256, crc)
 	{
-		const std::string name = "Decoder_polar_SCL_fast_CA_sys_N512_K266_SNR68";
+		const std::string name = "Decoder_polar_SCL_fast_CA_sys_N320_K256";
 		this->set_name(name);
 		assert(N == 512);
 		assert(K == 266);
 	}
 
-	virtual ~Decoder_polar_SCL_fast_CA_sys_N512_K266_SNR68()
+	virtual ~Decoder_polar_SCL_fast_CA_sys_N320_K256()
 	{
 	}
 
@@ -118,7 +118,7 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 3 -1)].data();
 			gr<4>(parent + 496, parent + 496 + 4, s[path].data() + 24, child + 496 + 8, 4);
 		}
-		this->template update_paths_spc<2, 4>(504, 28);
+		this->template update_paths_r1<2, 4>(504, 28);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			xo<4>(s[this->paths[i]], 24, 24 + 4, 24, 4);
@@ -482,7 +482,7 @@ public:
 			const auto child  = l[this->up_ref_array_idx(path, 4 -1)].data();
 			g<8>(parent + 480, parent + 480 + 8, s[path].data() + 256, child + 480 + 16, 8);
 		}
-		this->template update_paths_r1<3, 8>(496, 264);
+		this->template update_paths_spc<3, 8>(496, 264);
 		for (auto i = 0; i < this->n_active_paths; i++) 
 		{
 			xo<8>(s[this->paths[i]], 256, 256 + 8, 256, 8);

@@ -1,5 +1,5 @@
-#ifndef DECODER_POLAR_SC_FAST_SYS_N256_K138_SNR75_HPP_
-#define DECODER_POLAR_SC_FAST_SYS_N256_K138_SNR75_HPP_
+#ifndef DECODER_POLAR_SC_FAST_SYS_N160_K128_HPP_
+#define DECODER_POLAR_SC_FAST_SYS_N160_K128_HPP_
 
 #include <vector>
 #include <cassert>
@@ -10,7 +10,7 @@ namespace aff3ct
 {
 namespace module
 {
-static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_256_138_75 = {
+static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_160_128 = {
 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -20,19 +20,19 @@ static const std::vector<bool> Decoder_polar_SC_fast_sys_fb_256_138_75 = {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
-class Decoder_polar_SC_fast_sys_N256_K138_SNR75 : public Decoder_polar_SC_fast_sys
+class Decoder_polar_SC_fast_sys_N160_K128 : public Decoder_polar_SC_fast_sys
 {
 public:
-	Decoder_polar_SC_fast_sys_N256_K138_SNR75(const int& K, const int& N, const int n_frames = 1)
-	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_256_138_75)
+	Decoder_polar_SC_fast_sys_N160_K128(const int& K, const int& N, const int n_frames = 1)
+	: Decoder_polar_SC_fast_sys(K, N, Decoder_polar_SC_fast_sys_fb_160_128)
 	{
-		const std::string name = "Decoder_polar_SC_fast_sys_N256_K138_SNR75";
+		const std::string name = "Decoder_polar_SC_fast_sys_N160_K128";
 		this->set_name(name);
 		assert(N == 256);
 		assert(K == 138);
 	}
 
-	virtual ~Decoder_polar_SC_fast_sys_N256_K138_SNR75()
+	virtual ~Decoder_polar_SC_fast_sys_N160_K128()
 	{
 	}
 
