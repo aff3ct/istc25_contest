@@ -308,6 +308,46 @@ struct fast_api_polar : base_api_polar {
 
         f<N_ELMTS>(l_a, l_b, l_c, n_elmts);
     }
+
+    template <int N_ELMTS>
+    inline static void g(const float* l_a,
+            const float* l_b,
+            const int* s_a,
+            float* l_c,
+            int n_elmts)
+    {
+        for (auto i = 0; i < N_ELMTS; i += 8)
+        {
+
+            const auto r_lambda_a = _mm256_loadu_ps(l_a + i);
+            const auto r_lambda_b = _mm256_loadu_ps(l_b + i);
+            const auto r_u = _mm256_loadu_ps((const float*)(s_a + i));
+            const auto msb_mask = _mm256_castsi256_ps(_mm256_set1_epi32(0x80000000));
+            const auto msb = _mm256_and_ps(r_u, msb_mask);
+            auto r_lambda_c = _mm256_xor_ps(r_lambda_a, msb);
+            r_lambda_c = _mm256_add_ps(r_lambda_c, r_lambda_b);
+            _mm256_storeu_ps(l_c + i, r_lambda_c);
+        }
+    }
+
+    template <int N_ELMTS>
+    inline static void g(std::vector<int>& s,
+        std::vector<float>& l,
+        const int off_l_a,
+        const int off_l_b,
+        const int off_s_a,
+        const int off_l_c,
+        int n_elmts)
+    {
+        const float* l_a = l.data() + off_l_a;
+        const float* l_b = l.data() + off_l_b;
+        const int* s_a = s.data() + off_s_a;
+        float* l_c = l.data() + off_l_c;
+
+        g<N_ELMTS>(l_a, l_b, s_a, l_c, n_elmts);
+    }
+
+
 };
 
 template <>
@@ -343,7 +383,7 @@ inline void fast_api_polar::f<2>(
 }
 
 template <>
-inline void base_api_polar::g<4>(
+inline void fast_api_polar::g<4>(
         const float* l_a,
         const float* l_b,
         const int* s_a,
@@ -355,7 +395,7 @@ inline void base_api_polar::g<4>(
 }
 
 template <>
-inline void base_api_polar::g<2>(
+inline void fast_api_polar::g<2>(
         const float* l_a,
         const float* l_b,
         const int* s_a,
