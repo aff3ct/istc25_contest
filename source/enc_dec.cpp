@@ -8,7 +8,7 @@ int max_iter;
 
 // Setup for [n,k] code
 int enc_dec::init(int k, int n, bool opt_avg_latency) {
-    code = factory<base_api_polar>::create(k, n);
+    code = factory<fast_api_polar>::create(k, n);
     return 0;
 }
 
