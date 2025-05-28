@@ -52,7 +52,7 @@ class factory
 {
     public:
         // Factory method to create a polar code instance
-        static polar* create(int K, int N)
+        static polar* create(int K, int N, bool opt_avg_latency = false)
         {
             std::cout << "Creating polar code with K = " << K << " and N = " << N << std::endl;
             int N_polar = (int)std::exp2(std::ceil(std::log2(N)));
@@ -63,7 +63,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N80_K64<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N80_K64<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_80_64,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 64 && N == 128)
             {
@@ -72,7 +72,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N128_K64<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N128_K64<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_128_64,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 64 && N == 256)
             {
@@ -81,7 +81,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K64<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K64<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_64,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 128 && N == 160)
             {
@@ -90,7 +90,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N160_K128<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N160_K128<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_160_128,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 128 && N == 256)
             {
@@ -99,7 +99,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N256_K128<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N256_K128<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_256_128,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 128 && N == 512)
             {
@@ -108,7 +108,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N512_K128<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N512_K128<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_512_128,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 256 && N == 320)
             {
@@ -117,7 +117,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N320_K256<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N320_K256<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_320_256,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 256 && N == 512)
             {
@@ -126,7 +126,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N512_K256<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N512_K256<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_512_256,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 256 && N == 1024)
             {
@@ -135,7 +135,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N1024_K256<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N1024_K256<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_1024_256,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 512 && N == 640)
             {
@@ -144,7 +144,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N640_K512<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N640_K512<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_640_512,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 512 && N == 1024)
             {
@@ -153,7 +153,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N1024_K512<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N1024_K512<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_1024_512,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             if (K == 512 && N == 2048)
             {
@@ -162,7 +162,7 @@ class factory
                 aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N2048_K512<API_polar>(K + crc->get_size(), N_polar, 1);
                 aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N2048_K512<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);
                 return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_2048_512,
-                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);
+                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);
             }
             else
                 throw std::invalid_argument("Unsupported polar code parameters");

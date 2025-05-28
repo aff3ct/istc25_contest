@@ -28,13 +28,15 @@ protected:
     std::vector<int> V_K_SC;
 
 public:
-    Decoder_polar_ASCL_fast_CA_sys(const int& K, const int& N, Decoder_polar_SC_fast_sys& decoder_SC, Decoder_polar_SCL_fast_CA_sys& decoder_CASCL, CRC<int>& crc)
+    Decoder_polar_ASCL_fast_CA_sys(const int& K, const int& N, Decoder_polar_SC_fast_sys& decoder_SC, Decoder_polar_SCL_fast_CA_sys& decoder_CASCL, CRC<int>& crc, const bool fully = false)
     : Decoder_polar(K, N),
       decoder_SC(decoder_SC),
       decoder_CASCL(decoder_CASCL),
       crc(crc),
       V_K_SC(this->K + crc.get_size())
-      {}
+      {
+        decoder_CASCL.set_fully(fully);
+      }
 
 
     virtual ~Decoder_polar_ASCL_fast_CA_sys() = default;

@@ -21,8 +21,8 @@ class Decoder_polar_SCL_fast_CA_sys : public Decoder_polar
 {
 
 protected:
-
-    const int L;
+    const int L_max;
+    int L;
 
     std ::vector<int >    paths;          // active paths
     std ::vector<float >  metrics;          // active paths
@@ -49,13 +49,14 @@ protected:
     CRC<int>& crc;
     const  std::vector<bool> &frozen_bits; // frozen bits
 
+    bool fully;
     bool fast_store;
-
     int check;
 
 public:
     Decoder_polar_SCL_fast_CA_sys(const int& K, const int& N, const int& L, const std::vector<bool>& frozen_bits, CRC<int>& crc)
     : Decoder_polar(K, N),
+        L_max(L),
         L(L),
         paths(L),
         metrics(L),
@@ -86,19 +87,34 @@ public:
     };
     virtual ~Decoder_polar_SCL_fast_CA_sys() = default;
 
+    void set_fully(const bool fully)
+    {
+        this->fully = fully;
+    }
+
     int decode(llrvec &llr, bitvec &cw_est, bitvec &info_est)
     {
         // Copy the LLRs to the internal buffer
         this->_load(llr);
 
-        this->init_buffers();
+        if (this->fully)
+        {
+            this->L = 1;
+            do
+            {
+                this->L *= 2;
+                this->init_buffers();
+                this->_decode(Y_N);
+                this->select_best_path();
+            } while (!check && this->L < L_max);
+        }
+        else
+        {
+            this->init_buffers();
+            this->_decode(Y_N);
+            this->select_best_path();
+        }
 
-        // Call the decode function
-        this->_decode(Y_N);
-        this->select_best_path();
-
-
-        // Store the decoded bits
         this->_store(cw_est, info_est);
 
         return check;

@@ -106,7 +106,7 @@ def main():
         f.write('{\n')
         f.write('    public:\n')
         f.write('        // Factory method to create a polar code instance\n')
-        f.write('        static polar* create(int K, int N)\n')
+        f.write('        static polar* create(int K, int N, bool opt_avg_latency = false)\n')
         f.write('        {\n')
         f.write('            std::cout << "Creating polar code with K = " << K << " and N = " << N << std::endl;\n')
         f.write('            int N_polar = (int)std::exp2(std::ceil(std::log2(N)));\n')
@@ -119,7 +119,7 @@ def main():
             f.write('                aff3ct::module::Decoder_polar_SC_fast_sys* decoder_SC = new aff3ct::module::Decoder_polar_SC_fast_sys_N' + str(data['N']) + '_K' + str(data['K']) + '<API_polar>(K + crc->get_size(), N_polar, 1);\n')
             f.write('                aff3ct::module::Decoder_polar_SCL_fast_CA_sys* decoder_CASCL = new aff3ct::module::Decoder_polar_SCL_fast_CA_sys_N' + str(data['N']) + '_K' + str(data['K']) + '<API_polar>(K + crc->get_size(), N_polar, L, *crc, 1);\n')
             f.write('                return new polar(K + crc->get_size(), N_polar, aff3ct::module::Decoder_polar_SCL_fast_CA_sys_fb_' + str(data['N']) + '_' + str(data['K']) + ',\n')
-            f.write('                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc), crc);\n')
+            f.write('                    new aff3ct::module::Decoder_polar_ASCL_fast_CA_sys(K + crc->get_size(), N_polar, *decoder_SC, *decoder_CASCL, *crc, opt_avg_latency), crc);\n')
             f.write('            }\n')
 
         f.write ('            else\n')
