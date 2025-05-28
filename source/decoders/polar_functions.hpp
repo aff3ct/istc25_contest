@@ -522,7 +522,64 @@ struct fast_api_polar : base_api_polar {
         }
 
         return (s_prod_sign < 0);
+    }
 
+
+    template <int N_ELMTS>
+    inline static void xo(const int* s_a,
+            const int* s_b,
+            int* s_c,
+            int n_elmts)
+    {
+        const auto stride = 8; // AVX2 processes 8 integers at a time
+
+        for (auto i = 0; i < N_ELMTS; i += stride)
+        {
+            const auto r_s_a = _mm256_loadu_ps((const float*)(s_a + i));
+            const auto r_s_b = _mm256_loadu_ps((const float*)(s_b + i));
+            const auto r_s_c = _mm256_xor_ps(r_s_a, r_s_b);
+            _mm256_storeu_ps((float*)(s_c + i), r_s_c);
+        }
+
+    }
+
+    template <int N_ELMTS>
+    inline static void xo(std::vector<int>& s,
+            const int off_s_a,
+            const int off_s_b,
+            const int off_s_c,
+            int n_elmts)
+    {
+        const int* s_a = s.data() + off_s_a;
+        const int* s_b = s.data() + off_s_b;
+        int* s_c = s.data() + off_s_c;
+
+        xo<N_ELMTS>(s_a, s_b, s_c, n_elmts);
+    }
+
+    template <int N_ELMTS>
+    inline static void xo0(const int* s_b,
+            int* s_c,
+            int n_elmts)
+    {
+        const auto stride = 8;
+        for (auto i = 0; i < N_ELMTS; i+= stride)
+        {
+            const auto r_s_b = _mm256_loadu_ps((const float*)(s_b + i));
+            _mm256_storeu_ps((float*)(s_c + i), r_s_b);
+        }
+    }
+
+    template <int N_ELMTS>
+    inline static void xo0(std::vector<int>& s,
+            const int off_s_b,
+            const int off_s_c,
+            int n_elmts)
+    {
+        const int* s_b = s.data() + off_s_b;
+        int* s_c = s.data() + off_s_c;
+
+        xo0<N_ELMTS>(s_b, s_c, n_elmts);
     }
 };
 
@@ -673,25 +730,6 @@ inline void fast_api_polar::rep<4>(std::vector<int>& s,
 }
 
 template <>
-inline void fast_api_polar::rep<2>(std::vector<int>& s,
-        const std::vector<float>& l,
-        const int off_l_a,
-        const int off_s_a,
-        int n_elmts)
-{
-    const float* l_a = l.data() + off_l_a;
-    int* s_a = s.data() + off_s_a;
-
-    float sum_l = 0;
-    for (auto i = 0; i < 2; i++)
-        sum_l += l_a[i];
-
-    auto r = (sum_l < 0) * bit_init<int>();
-    for (auto i = 0; i < 2; i++)
-        s_a[i] = r;
-}
-
-template <>
 inline  bool fast_api_polar::spc<4>(std::vector<int>& s,
         const std::vector<float>& l,
         const int off_l_a,
@@ -724,38 +762,45 @@ inline  bool fast_api_polar::spc<4>(std::vector<int>& s,
     return (prod_sign < 0);
 }
 
-
 template <>
-inline  bool fast_api_polar::spc<2>(std::vector<int>& s,
-        const std::vector<float>& l,
-        const int off_l_a,
-        const int off_s_a,
+inline void fast_api_polar::xo<4>(const int* s_a,
+        const int* s_b,
+        int* s_c,
         int n_elmts)
 {
-
-    const float* l_a = l.data() + off_l_a;
-    int* s_a = s.data() + off_s_a;
-
-    auto cur_min_abs = std::numeric_limits<float>::max();
-    auto cur_min_pos = -1;
-    auto prod_sign = 1;
-    for( auto i = 0; i < 2; i++)
-    {
-        s_a[i] = l_a[i] < 0 ? bit_init<int>() : 0;
-        auto sign = (s_a[i] == 0) ? 1 : -1;
-        auto abs = (float)sign * l_a[i];
-
-        if (cur_min_abs > abs)
-        {
-            cur_min_abs = abs;
-            cur_min_pos = i;
-        }
-
-        prod_sign *= sign;
-    }
-    if (prod_sign < 0)
-        s_a[cur_min_pos] = (s_a[cur_min_pos] == 0) ? bit_init<int>() : 0; // correction
-    return (prod_sign < 0);
+    for (auto i = 0; i < 4; i++)
+        s_c[i] = s_a[i] ^ s_b[i];
 }
+
+template <>
+inline void fast_api_polar::xo<2>(const int* s_a,
+        const int* s_b,
+        int* s_c,
+        int n_elmts)
+{
+    for (auto i = 0; i < 2; i++)
+        s_c[i] = s_a[i] ^ s_b[i];
+}
+
+template <>
+inline void fast_api_polar::xo0<4>(const int* s_b,
+        int* s_c,
+        int n_elmts)
+{
+    for (auto i = 0; i < 4; i++)
+        s_c[i] = s_b[i];
+}
+
+template <>
+inline void fast_api_polar::xo0<2>(const int* s_b,
+        int* s_c,
+        int n_elmts)
+{
+    for (auto i = 0; i < 2; i++)
+        s_c[i] = s_b[i];
+}
+
+
+
 
 #endif // POLAR_FUNCTIONS_HPP_
