@@ -61,7 +61,7 @@ def main():
     json_data = load_json_files(json_path)
 
     # sort json data by K and N
-    json_data.sort(key=lambda x: (x['K'], x['N']))
+    json_data.sort(key=lambda x: (x['K']/x['N'], x['K']))
 
     create_frozen_bits_file(json_data)
 
