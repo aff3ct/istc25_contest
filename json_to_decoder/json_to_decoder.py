@@ -144,5 +144,30 @@ def main():
             esn0lin_5 = 10 ** (esn0dB_5 / 10)
             f.write(f'{data["K"]} {data["N"]} {esn0lin_5} 10000000 1 \n')
 
+    create_table_file(json_path, json_data)
+
+def create_table_file(json_path, json_data):
+    if len(json_data) != 12:
+        print("Skipping table generation, expected 12 entries but found", len(json_data))
+        return
+
+    table_file = os.path.join(json_path, 'table.tex')
+
+    with open(table_file, 'w') as f:
+        f.write('\\midrule\n')
+        for index, data in enumerate(json_data):
+            if index % 4 == 0 and index != 0:
+                f.write('\\addlinespace\n')
+            if index % 4 == 0:
+                if index == 0:
+                    f.write('\\multirow{4}{*}{$1/4$} & ')
+                elif index == 4:
+                    f.write('\\multirow{4}{*}{$1/2$} & ')
+                elif index == 8:
+                    f.write('\\multirow{4}{*}{$4/5$} & ')
+            else:
+                f.write('                       & ')
+            f.write(f"{str(data['K']).rjust(3)} & {str(data['crc_size']).rjust(2)} & \\texttt{{{str(data['crc_poly']).ljust(6)}}} & {data['fbg_type']} &      & {data['L']} & {str(data['EbN0_1e-3']).rjust(5)} dB &       & {str(data['EbN0_1e-5']).rjust(5)} dB &      \\\\\n")
+
 if __name__ == "__main__":
     main()
