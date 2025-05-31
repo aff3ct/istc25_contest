@@ -112,7 +112,13 @@ polar::~polar()
 
 void polar::encode(bitvec &info, bitvec &cw)
 {
-    int N   = cw.size();
+    auto N = 1 << static_cast<int>(std::ceil(std::log2(cw.size())));
+
+    bool shortening = false;
+    if (N != static_cast<int>(cw.size()))
+        shortening = true;
+
+    bitvec cw_tmp(N, 0); // used for shortening
 
     switch(N)
     {
@@ -260,7 +266,13 @@ void polar::encode(bitvec &info, bitvec &cw)
 
             const size_t n_full = N / 64;
             const uint64_t* in  = packData.data();
-            int* out           = cw.data();
+            int* out;
+
+            if (shortening)
+                out = cw_tmp.data();
+            else
+                out = cw.data();
+
             alignas(16) uint8_t tmp[64];
 
             for (size_t i = 0; i < n_full; ++i) {
@@ -407,7 +419,13 @@ void polar::encode(bitvec &info, bitvec &cw)
 
             const size_t n_full = N / 64;
             const uint64_t* in  = packData.data();
-            int* out           = cw.data();
+            int* out;
+
+            if (shortening)
+                out = cw_tmp.data();
+            else
+                out = cw.data();
+
             alignas(16) uint8_t tmp[64];
 
             for (size_t i = 0; i < n_full; ++i) {
@@ -548,7 +566,13 @@ void polar::encode(bitvec &info, bitvec &cw)
 
             const size_t n_full = N / 64;
             const uint64_t* in  = packData.data();
-            int* out           = cw.data();
+            int* out;
+
+            if (shortening)
+                out = cw_tmp.data();
+            else
+                out = cw.data();
+
             alignas(16) uint8_t tmp[64];
 
             for (size_t i = 0; i < n_full; ++i) {
@@ -681,7 +705,13 @@ void polar::encode(bitvec &info, bitvec &cw)
 
             const size_t n_full = N / 64;
             const uint64_t* in  = packData.data();
-            int* out           = cw.data();
+            int* out;
+
+            if (shortening)
+                out = cw_tmp.data();
+            else
+                out = cw.data();
+
             alignas(16) uint8_t tmp[64];
 
             for (size_t i = 0; i < n_full; ++i) {
@@ -817,7 +847,13 @@ void polar::encode(bitvec &info, bitvec &cw)
 
             const size_t n_full = N / 64;
             const uint64_t* in  = packData.data();
-            int* out           = cw.data();
+            int* out;
+
+            if (shortening)
+                out = cw_tmp.data();
+            else
+                out = cw.data();
+
             alignas(16) uint8_t tmp[64];
 
             for (size_t i = 0; i < n_full; ++i) {
@@ -836,10 +872,12 @@ void polar::encode(bitvec &info, bitvec &cw)
         //    std::cout << "Time taken: " << enc_time << " ns" << std::endl;
 
         }
-            break;
+        break;
 
+    }
 
-  }
+    if (shortening)
+        std::copy(cw_tmp.begin(), cw_tmp.begin() + cw.size(), cw.begin());
 
 }
 
