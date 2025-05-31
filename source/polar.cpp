@@ -63,9 +63,10 @@ polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module:
 
     std::vector<uint8_t> notfb(N, 0);
     info_pos.clear();
-    for (int i = 0; i < N; ++i) {
+    for (unsigned i = 0; i < static_cast<unsigned>(N); ++i) {
         notfb[i] = !frozen_bits[i];
-        if (!frozen_bits[i]) info_pos.push_back(i);
+        if (!frozen_bits[i])
+            info_pos.push_back(i);
     }
 
     pack_64_scalar(notfb.data(), packed_frozen_bits, N);
@@ -86,9 +87,11 @@ polar::polar(int K, int N, const std::vector<bool> &frozen_bits, aff3ct::module:
 
     std::vector<uint8_t> notfb(N, 0);
     info_pos.clear();
-    for (int i = 0; i < N; ++i) {
+    for (unsigned i = 0; i < static_cast<unsigned>(N); ++i)
+    {
         notfb[i] = !frozen_bits[i];
-        if (!frozen_bits[i]) info_pos.push_back(i);
+        if (!frozen_bits[i])
+            info_pos.push_back(i);
     }
 
     pack_64_scalar(notfb.data(), packed_frozen_bits, N);
@@ -702,7 +705,7 @@ void polar::encode(bitvec &info, bitvec &cw)
 
             int N_0   = 256;
 
-            const size_t uint64N  = (N + 63) / 64;
+            const size_t uint64N  = 4;
             std::vector<std::uint64_t> packData(uint64N, 0);
             std::vector<std::uint8_t> bits(N_0, 0);
 
