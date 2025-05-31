@@ -167,7 +167,7 @@ def create_table_file(json_path, json_data):
                     f.write('\\multirow{4}{*}{$4/5$} & ')
             else:
                 f.write('                       & ')
-            f.write(f"{str(data['K']).rjust(3)} & {str(data['crc_size']).rjust(2)} & \\texttt{{{str(data['crc_poly']).ljust(6)}}} & {data['fbg_type']} &      & {data['L']} & {str(data['EbN0_1e-3']).rjust(5)} dB &       & {str(data['EbN0_1e-5']).rjust(5)} dB &      \\\\\n")
+            f.write(f"{str(data['K']).rjust(3)} & {str(data['crc_size']).rjust(2)} & \\texttt{{{str(data['crc_poly']).ljust(6)}}} & {data['fbg_type']} &      & {data['L']} & {data['EbN0_1e-3']:.2f} dB &       & {data['EbN0_1e-5']:.2f} dB &      \\\\\n")
 
 if __name__ == "__main__":
     main()
